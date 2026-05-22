@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export default function AssignAsset({ asset, closeForm, fetchAssets }) {
+export default function AssignEmployeeAsset({ employee, closeForm, fetchEmployees }) {
 
-    const [employees, setEmployees] = useState([])
+    const [assets, setAssets] = useState([])
     const [search, setSearch] = useState('')
     const [assignmentData, setAssignmentData] = useState({
-        assetId: asset.assetId,
-        employeeId: '',
+        assetId: '',
+        employeeId: employee.employeeId,
         assignedDate: new Date().toISOString().split('T')[0],
         expectedReturnDate: '',
         conditionAtIssue: ''
     })
-    
+
     useEffect(() => {
-        fetchEmployees()
+        fetchAssets()
     }, [])
 
-    const fetchEmployees = async () => {
+    const fetchAssets = async () => {
         try {
-            const response = await axios.get('https://localhost:7059/api/Employee')
-            setEmployees(response.data)
+            const response = await axios.get('https://localhost:7059/api/Asset')
+            const availableAssets = response.data.filter((asset) => asset.status !== 'Issued')
+            setAssets(availableAssets)
         }
         catch (error) {
             console.log(error)
@@ -36,10 +37,11 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
 
     const handleAssign = async (e) => {
         e.preventDefault()
+
         try {
-            await axios.post( 'https://localhost:7059/api/AssetAssignment', assignmentData )
+            await axios.post('https://localhost:7059/api/AssetAssignment', assignmentData)
             alert('Asset Assigned Successfully')
-            fetchAssets()
+            fetchEmployees()
             closeForm()
         }
         catch (error) {
@@ -48,9 +50,8 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
         }
     }
 
-    const filteredEmployees = employees.filter((emp) =>
-        `${emp.firstName} ${emp.lastName}`
-        .toLowerCase().includes(search.toLowerCase())
+    const filteredAssets = assets.filter((asset) =>
+        asset.assetName.toLowerCase().includes(search.toLowerCase())
     )
 
     return (
@@ -58,17 +59,22 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
             <div className='modal-box'>
                 <h3>Assign Asset</h3>
                 <p>
-                    <strong>AssetID:</strong> {asset.assetId}
-                    <strong>&nbsp;Asset:</strong> {asset.assetName}
+                    <strong>Employee:</strong>
+                    {' '}
+                    {employee.firstName} {employee.lastName}
                 </p>
+
                 <form onSubmit={handleAssign}>
-                    <input type='text' placeholder='Search Employee' className='form-control mb-3' value={search} onChange={(e) => setSearch(e.target.value)} />
-                    <select name='employeeId' className='form-control mb-3' onChange={handleChange} required >
-                        <option value=''>Select Employee</option>
+                    <input type='text' placeholder='Search Asset' className='form-control mb-3' value={search} 
+                        onChange={(e) => setSearch(e.target.value)} />
+                    <select name='assetId' className='form-control mb-3' onChange={handleChange} required >
+                        <option value=''> Select Asset </option>
                         {
-                            filteredEmployees.map((emp) => (
-                                <option key={emp.employeeId} value={emp.employeeId} >
-                                    {emp.firstName} {emp.lastName}
+                            filteredAssets.map((asset) => (
+                                <option key={asset.assetId} value={asset.assetId} >
+                                    {asset.assetName}
+                                    {' - '}
+                                    {asset.serialNumber}
                                 </option>
                             ))
                         }

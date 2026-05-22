@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import AddEmployee from './AddEmployee'
 import EditEmployee from './EditEmployee'
+import AssignEmployeeAsset from '../components/AssignAsset/AssignEmployeeAsset'
+import EmployeeAssetsModal from './EmployeeAssetModal'
 
 export default function EmployeeManagement() {
     const [employees, setEmployees] = useState([]);
     const [showAdd, setShowAdd] = useState(false);
     const [editEmployees, setEditEmployees] = useState(null);
+    const [assignEmployee, setAssignEmployee] = useState(null)
+    const [selectedEmployee, setSelectedEmployee] = useState(null)
 
     const fetchEmployees = async () => {
         try {
@@ -41,10 +45,20 @@ export default function EmployeeManagement() {
                 </button>
             </div>
             {
-                showAdd && <AddEmployee fetchEmployees={fetchEmployees} closeForm={() => setShowAdd(false)} />
+                showAdd &&
+                <AddEmployee fetchEmployees={fetchEmployees} closeForm={() => setShowAdd(false)} />
             }
             {
-                editEmployees && <EditEmployee employee={editEmployees} fetchEmployees={fetchEmployees} closeForm={() => setEditEmployees(null)} />
+                editEmployees &&
+                <EditEmployee employee={editEmployees} fetchEmployees={fetchEmployees} closeForm={() => setEditEmployees(null)} />
+            }
+            {
+                assignEmployee &&
+                <AssignEmployeeAsset employee={assignEmployee} fetchEmployees={fetchEmployees} closeForm={() => setAssignEmployee(null)} />
+            }
+            {
+                selectedEmployee &&
+                (<EmployeeAssetsModal employee={selectedEmployee} fetchEmployees={fetchEmployees} closeForm={() => setSelectedEmployee(null)} />)
             }
             <table className="table table-bordered table-striped">
 
@@ -60,15 +74,21 @@ export default function EmployeeManagement() {
                 <tbody>
                     {
                         employees.map((emp) => (
-                            <tr key={emp.employeeId}>
+                            <tr key={emp.employeeId} style={{ cursor: 'pointer' }} onClick={() => setSelectedEmployee(emp)}>
                                 <td>{emp.employeeId}</td>
                                 <td>{emp.firstName + ' ' + emp.lastName}</td>
                                 <td>{emp.email}</td>
                                 <td>{emp.department}</td>
                                 <td>
-                                    <button type='submit' className='btn btn-success btn-sm me-2' > Assign </button>
-                                    <button className="btn btn-warning btn-sm me-2" onClick={() => setEditEmployees(emp)} > Edit </button>
-                                    <button className="btn btn-danger btn-sm" onClick={() => deleteEmployees(emp.employeeId)}> Delete </button>
+                                    <button className='btn btn-success btn-sm me-2' onClick={(e) => { e.stopPropagation(); setAssignEmployee(emp) }} >
+                                        Assign
+                                    </button>
+                                    <button className="btn btn-warning btn-sm me-2" onClick={(e) => { e.stopPropagation(); setEditEmployees(emp) }} >
+                                        Edit
+                                    </button>
+                                    <button className="btn btn-danger btn-sm" onClick={(e) => { e.stopPropagation(); deleteEmployees(emp.employeeId) }}>
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))
