@@ -12,7 +12,8 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
         expectedReturnDate: '',
         conditionAtIssue: ''
     })
-    
+    const [successMessage, setSuccessMessage] = useState('')
+
     useEffect(() => {
         fetchEmployees()
     }, [])
@@ -37,10 +38,12 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
     const handleAssign = async (e) => {
         e.preventDefault()
         try {
-            await axios.post( 'https://localhost:7059/api/AssetAssignment', assignmentData )
-            alert('Asset Assigned Successfully')
+            await axios.post('https://localhost:7059/api/AssetAssignment', assignmentData)
+            setSuccessMessage('Asset Assigned Successfully')
             fetchAssets()
-            closeForm()
+            setTimeout(() => {
+                closeForm()
+            }, 2000)
         }
         catch (error) {
             console.log(error)
@@ -50,13 +53,16 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
 
     const filteredEmployees = employees.filter((emp) =>
         `${emp.firstName} ${emp.lastName}`
-        .toLowerCase().includes(search.toLowerCase())
+            .toLowerCase().includes(search.toLowerCase())
     )
 
     return (
         <div className='modal-overlay'>
             <div className='modal-box'>
                 <h3>Assign Asset</h3>
+                {
+                    successMessage && <div className="alert alert-success"> {successMessage} </div>
+                }
                 <p>
                     <strong>AssetID:</strong> {asset.assetId}
                     <strong>&nbsp;Asset:</strong> {asset.assetName}

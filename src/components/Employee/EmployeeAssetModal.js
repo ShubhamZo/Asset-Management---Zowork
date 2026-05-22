@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import ReturnAsset from './AssignAsset/ReturnAsset'
+import ReturnAsset from '../AssignAsset/ReturnAsset'
 
 export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployees}) {
 

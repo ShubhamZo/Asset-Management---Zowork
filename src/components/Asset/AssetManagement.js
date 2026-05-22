@@ -12,6 +12,10 @@ export default function AssetManagement() {
     const [editAsset, setEditAsset] = useState(null)
     const [assignAsset, setAssignAsset] = useState(null)
     const [returnAsset, setReturnAsset] = useState(null)
+    
+    useEffect(() => {
+        fetchAssets()
+    }, [])
 
     const fetchAssets = async () => {
         try {
@@ -22,9 +26,6 @@ export default function AssetManagement() {
             console.log(err)
         }
     }
-    useEffect(() => {
-        fetchAssets()
-    }, [])
 
     const deleteAsset = async (id) => {
         if (!window.confirm("Are you sure?"))
@@ -85,7 +86,7 @@ export default function AssetManagement() {
                                             <button className='btn btn-success btn-sm me-2' onClick={() => setAssignAsset(asset)} > Assign </button>
                                         )
                                     }
-                                    <button className="btn btn-warning btn-sm me-2" onClick={() => setEditAsset(asset)}> Edit</button>
+                                    <button className="btn btn-warning btn-sm me-2" disabled={asset.status === "Issued"} onClick={() => setEditAsset(asset)}> Edit</button>
                                     <button className="btn btn-danger btn-sm" onClick={() => deleteAsset(asset.assetId)}> Delete </button>
                                 </td>
                             </tr>

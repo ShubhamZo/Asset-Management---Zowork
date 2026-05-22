@@ -1,5 +1,5 @@
 import AssetManagement from './Asset/AssetManagement'
-import EmployeeManagement from './EmployeeManagement'
+import EmployeeManagement from './Employee/EmployeeManagement'
 import React, {useState} from 'react'
 
 export default function AdminPage() {

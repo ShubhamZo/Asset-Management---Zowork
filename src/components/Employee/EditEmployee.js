@@ -3,12 +3,14 @@ import axios from 'axios'
 
 export default function EditEmployee({ employee, fetchEmployees, closeForm }) {
 
+    const departments = [ "HR", "IT", "Development", "Finance", "Operations", "Sales", "Support" ]
     const [updatedEmployee, setUpdatedEmployee] = useState({
         firstName: employee.firstName,
         lastName: employee.lastName,
         email: employee.email,
         department: employee.department
     })
+    const [successMessage, setSuccessMessage] = useState('')
 
     const handleChange = (e) => {
         setUpdatedEmployee({
@@ -20,9 +22,12 @@ export default function EditEmployee({ employee, fetchEmployees, closeForm }) {
         e.preventDefault()
         try {
             await axios.put(`https://localhost:7059/api/Employee/${employee.employeeId}`, updatedEmployee)
-            alert("Employee Updated")
+            //alert("Employee Updated")
+            setSuccessMessage("Employee updated successfully")
             fetchEmployees()
-            closeForm()
+            setTimeout(() => {
+                closeForm()
+            }, 2000)
         }
         catch (err) {
             console.log(err)
@@ -32,11 +37,18 @@ export default function EditEmployee({ employee, fetchEmployees, closeForm }) {
     return (
         <div className="card p-3 mb-4">
             <h4>Edit Employee</h4>
+            {
+                successMessage && <div className="alert alert-success"> {successMessage} </div>
+            }
             <form onSubmit={handleSubmit}>
                 <input type="text" name="firstName" className="form-control mb-2" value={updatedEmployee.firstName} onChange={handleChange} />
                 <input type="text" name="lastName" className="form-control mb-2" value={updatedEmployee.lastName} onChange={handleChange} />
                 <input type="email" name="email" className="form-control mb-2" value={updatedEmployee.email} onChange={handleChange} />
-                <input type="text" name="department" className="form-control mb-2" value={updatedEmployee.department} onChange={handleChange} />
+                <select name="department" className="form-select mb-2" value={updatedEmployee.department} onChange={handleChange}>
+                    <option value="">Select Department</option> {
+                        departments.map((dept) => (<option key={dept} value={dept}> {dept} </option> ))
+                    }
+                </select>
                 <button type='submit' className="btn btn-success me-2">
                     Update
                 </button>

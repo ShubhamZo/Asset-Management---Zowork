@@ -1,18 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-export default function ReturnAsset({
-    asset,
-    closeForm,
-    fetchAssets
-}) {
+export default function ReturnAsset({ asset, closeForm, fetchAssets }) {
 
     const [assignment, setAssignment] = useState(null)
-
     const [returnData, setReturnData] = useState({
         actualReturnDate: new Date().toISOString().split('T')[0],
         conditionAtReturn: ''
     })
+    const [successMessage, setSuccessMessage] = useState('')
 
     useEffect(() => {
         fetchAssignment()
@@ -46,14 +42,16 @@ export default function ReturnAsset({
     const handleReturn = async (e) => {
         e.preventDefault()
         try {
-            await axios.put( `https://localhost:7059/api/AssetAssignment/${assignment.assignmentId}`, returnData )
-            alert('Asset Returned Successfully')
+            await axios.put(`https://localhost:7059/api/AssetAssignment/${assignment.assignmentId}`, returnData)
+            setSuccessMessage("Asset returned successfully")
             fetchAssets()
-            closeForm()
+            setTimeout(() => {
+                closeForm()
+            }, 2000)
         }
         catch (error) {
             console.log(error)
-            alert('Return Failed')
+            setSuccessMessage('Return Failed')
         }
     }
 
@@ -65,6 +63,9 @@ export default function ReturnAsset({
         <div className='modal-overlay'>
             <div className='modal-box'>
                 <h3>Return Asset</h3>
+                {
+                    successMessage && <div className="alert alert-success"> {successMessage} </div>
+                }
                 <p>
                     <strong>AssetID:</strong> {asset.assetId}
                     <strong>&nbsp;Asset:</strong> {asset.assetName}

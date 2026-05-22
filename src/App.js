@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import Login from './components/Login';
 import About from './components/About';
 import AdminPage from './components/AdminPage';
-import EmployeePage from './components/EmployeePage';
+import EmployeePage from './components/Employee/EmployeePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -27,7 +27,6 @@ function App() {
               <ProtectedRoute role="Employee">
                 <EmployeePage />
               </ProtectedRoute>} />
-
           </Routes>
         </div>
       </div>

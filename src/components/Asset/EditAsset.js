@@ -9,6 +9,7 @@ export default function EditAsset({ asset, fetchAssets, closeForm}) {
         status: asset.status,
         purchaseDate: asset.purchaseDate?.split('T')[0]
     })
+    const [successMessage, setSuccessMessage] = useState('')
 
     const handleChange = (e) => {
         setUpdatedAsset({
@@ -21,9 +22,11 @@ export default function EditAsset({ asset, fetchAssets, closeForm}) {
         e.preventDefault()
         try {
             await axios.put(`https://localhost:7059/api/Asset/${asset.assetId}`, updatedAsset)
-            alert("Asset Updated")
+            //alert("Asset Updated")
+            setSuccessMessage("Asset updated successfully")
             fetchAssets()
-            closeForm()
+            setTimeout(() => {
+                closeForm()}, 2000)
         }
         catch (err) {
             console.log(err.response?.data || err)
@@ -32,6 +35,9 @@ export default function EditAsset({ asset, fetchAssets, closeForm}) {
     return (
         <div className="card p-3 mb-4">
             <h4>Edit Asset</h4>
+            {
+                successMessage && <div className="alert alert-success"> {successMessage} </div>
+            }  
             <form onSubmit={handleSubmit}>
                 <input type="text" name="assetName" className="form-control mb-2" value={updatedAsset.assetName} onChange={handleChange} />
                 <input type="text" name="assetType" className="form-control mb-2" value={updatedAsset.assetType} onChange={handleChange} />

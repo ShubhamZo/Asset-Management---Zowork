@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import AddEmployee from './AddEmployee'
 import EditEmployee from './EditEmployee'
-import AssignEmployeeAsset from '../components/AssignAsset/AssignEmployeeAsset'
+import AssignEmployeeAsset from '../AssignAsset/AssignEmployeeAsset'
 import EmployeeAssetsModal from './EmployeeAssetModal'
 
 export default function EmployeeManagement() {
@@ -60,7 +60,7 @@ export default function EmployeeManagement() {
                 selectedEmployee &&
                 (<EmployeeAssetsModal employee={selectedEmployee} fetchEmployees={fetchEmployees} closeForm={() => setSelectedEmployee(null)} />)
             }
-            <table className="table table-bordered table-striped">
+            <table className="table table-bordered table-striped table-hover">
 
                 <thead className="table-dark">
                     <tr>

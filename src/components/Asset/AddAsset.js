@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
-export default function AddAsset({
-    fetchAssets,
-    closeForm
-}) {
+export default function AddAsset({ fetchAssets, closeForm }) {
 
     const [asset, setAsset] = useState({
         assetName: '',
@@ -13,6 +10,7 @@ export default function AddAsset({
         purchaseDate: '',
         status: 'Active'
     })
+    const [successMessage, setSuccessMessage] = useState('')
 
     const handleChange = (e) => {
         setAsset({
@@ -25,9 +23,11 @@ export default function AddAsset({
         e.preventDefault()
         try {
             await axios.post('https://localhost:7059/api/Asset',asset)
-            alert("Asset Added")
+            //alert("Asset Added")
+            setSuccessMessage("Asset added successfully")
             fetchAssets()
-            closeForm()
+            setTimeout(() => {
+                closeForm()}, 2000)
         }
         catch (err) {
             console.log(err.response?.data || err)
@@ -37,6 +37,9 @@ export default function AddAsset({
     return (
         <div className="card p-3 mb-4">
             <h4>Add Asset</h4>
+            {
+                successMessage && <div className="alert alert-success"> {successMessage} </div>
+            }          
             <form onSubmit={handleSubmit}>
                 <input type="text" name="assetName" placeholder="Asset Name" className="form-control mb-2" onChange={handleChange} />
                 <input type="text" name="assetType" placeholder="Asset Type" className="form-control mb-2" onChange={handleChange} />
