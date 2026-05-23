@@ -9,7 +9,7 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
         assetId: asset.assetId,
         employeeId: '',
         assignedDate: new Date().toISOString().split('T')[0],
-        expectedReturnDate: '',
+        expectedReturnDate: null,
         conditionAtIssue: ''
     })
     const [successMessage, setSuccessMessage] = useState('')
@@ -31,7 +31,7 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
     const handleChange = (e) => {
         setAssignmentData({
             ...assignmentData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value === '' ? null : e.target.value
         })
     }
 
@@ -83,7 +83,11 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
                     <input type='date' name='expectedReturnDate' className='form-control mb-3' onChange={handleChange} />
                     <label>Condition At Issue</label>
                     <textarea name='conditionAtIssue' className='form-control mb-3' onChange={handleChange} />
-                    <button type='submit' className='btn btn-success me-2' > Assign </button>
+                    {
+                        asset.status === 'Active' ? 
+                        ( <button type='submit' className='btn btn-success me-2'> Assign </button> ) : 
+                        ( <div className='alert alert-danger'> This asset cannot be assigned. </div> )
+                    }
                     <button type='button' className='btn btn-secondary' onClick={closeForm} > Cancel </button>
                 </form>
             </div>

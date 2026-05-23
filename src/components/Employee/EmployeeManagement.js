@@ -87,7 +87,7 @@ export default function EmployeeManagement() {
                                         Edit
                                     </button>
                                     <button className="btn btn-danger btn-sm" onClick={(e) => { e.stopPropagation(); deleteEmployees(emp.employeeId) }}>
-                                        Delete
+                                        Remove
                                     </button>
                                 </td>
                             </tr>

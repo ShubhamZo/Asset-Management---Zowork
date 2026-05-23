@@ -44,7 +44,7 @@ export default function EditAsset({ asset, fetchAssets, closeForm}) {
                 <input type="text" name="serialNumber" className="form-control mb-2" value={updatedAsset.serialNumber} onChange={handleChange} />
                 <select name="status" className="form-control mb-3" value={updatedAsset.status} onChange={handleChange} >
                     <option value="Active">Active</option>
-                    <option value="Issued">Issued</option>
+                    {/*<option value="Issued">Issued</option>*/}
                     <option value="UnderMaintenance">Under Maintenance</option>
                     <option value="Retired">Retired</option>
                 </select>

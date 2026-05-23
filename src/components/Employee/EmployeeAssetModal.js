@@ -6,7 +6,7 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
 
     const [assignments, setAssignments] = useState([])
     const [returnAsset, setReturnAsset] = useState(null)
-
+    
     useEffect(() => {
         fetchAssignments()
     }, [])

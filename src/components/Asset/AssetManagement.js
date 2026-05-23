@@ -87,7 +87,7 @@ export default function AssetManagement() {
                                         )
                                     }
                                     <button className="btn btn-warning btn-sm me-2" disabled={asset.status === "Issued"} onClick={() => setEditAsset(asset)}> Edit</button>
-                                    <button className="btn btn-danger btn-sm" onClick={() => deleteAsset(asset.assetId)}> Delete </button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => deleteAsset(asset.assetId)}> Remove </button>
                                 </td>
                             </tr>
                         ))

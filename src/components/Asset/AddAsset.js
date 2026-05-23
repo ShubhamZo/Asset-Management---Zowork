@@ -11,6 +11,7 @@ export default function AddAsset({ fetchAssets, closeForm }) {
         status: 'Active'
     })
     const [successMessage, setSuccessMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleChange = (e) => {
         setAsset({
@@ -22,15 +23,16 @@ export default function AddAsset({ fetchAssets, closeForm }) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.post('https://localhost:7059/api/Asset',asset)
+            await axios.post('https://localhost:7059/api/Asset', asset)
             //alert("Asset Added")
             setSuccessMessage("Asset added successfully")
             fetchAssets()
             setTimeout(() => {
-                closeForm()}, 2000)
+                closeForm()
+            }, 2000)
         }
         catch (err) {
-            console.log(err.response?.data || err)
+                setErrorMessage(err.response.data);
         }
     }
 
@@ -39,12 +41,15 @@ export default function AddAsset({ fetchAssets, closeForm }) {
             <h4>Add Asset</h4>
             {
                 successMessage && <div className="alert alert-success"> {successMessage} </div>
-            }          
+            }
+            {
+                errorMessage && (<p className="text-danger">{errorMessage}</p>)
+            }
             <form onSubmit={handleSubmit}>
                 <input type="text" name="assetName" placeholder="Asset Name" className="form-control mb-2" onChange={handleChange} />
                 <input type="text" name="assetType" placeholder="Asset Type" className="form-control mb-2" onChange={handleChange} />
                 <input type="text" name="serialNumber" placeholder="Serial Number" className="form-control mb-2" onChange={handleChange} />
-                <input type="date" name="purchaseDate" className="form-control mb-2" onChange={handleChange}/>
+                <input type="date" name="purchaseDate" className="form-control mb-2" onChange={handleChange} />
                 {
                 /*<select name="status" className="form-control mb-3" onChange={handleChange} >
                     <option value="Active">Active</option>
