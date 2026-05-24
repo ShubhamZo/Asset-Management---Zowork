@@ -4,6 +4,7 @@ import AddAsset from './AddAsset'
 import EditAsset from './EditAsset'
 import AssignAsset from '../AssignAsset/AssignAsset'
 import ReturnAsset from '../AssignAsset/ReturnAsset'
+import Pagination from '../Pagination'
 
 export default function AssetManagement() {
 
@@ -12,7 +13,9 @@ export default function AssetManagement() {
     const [editAsset, setEditAsset] = useState(null)
     const [assignAsset, setAssignAsset] = useState(null)
     const [returnAsset, setReturnAsset] = useState(null)
-    
+    const [currentPage, setCurrentPage] = useState(1)
+    const assetsPerPage = 10
+
     useEffect(() => {
         fetchAssets()
     }, [])
@@ -44,6 +47,16 @@ export default function AssetManagement() {
         2: "Under Maintenance",
         3: "Retired"
     }
+
+    const indexOfLastAsset = currentPage * assetsPerPage
+    const indexOfFirstAsset = indexOfLastAsset - assetsPerPage
+    const currentAssets = assets.slice(indexOfFirstAsset, indexOfLastAsset)
+    const totalPages = Math.ceil(assets.length / assetsPerPage)
+    {/* 
+    console.log("Total Assets:", assets.length)
+    console.log("Current Assets:", currentAssets.length)
+    console.log(currentAssets)
+    */}
     return (
         <div>
             <div className="d-flex justify-content-between mb-3">
@@ -70,7 +83,7 @@ export default function AssetManagement() {
                 </thead>
                 <tbody>
                     {
-                        assets.map((asset) => (
+                        currentAssets.map((asset) => (
                             <tr key={asset.assetId}>
                                 <td>{asset.assetId}</td>
                                 <td>{asset.assetName}</td>
@@ -86,19 +99,26 @@ export default function AssetManagement() {
                                             <button className='btn btn-success btn-sm me-2' onClick={() => setAssignAsset(asset)} > Assign </button>
                                         )
                                     }
-                                    <button className="btn btn-warning btn-sm me-2" disabled={asset.status === "Issued"} onClick={() => setEditAsset(asset)}> Edit</button>
-                                    <button className="btn btn-danger btn-sm" onClick={() => deleteAsset(asset.assetId)}> Remove </button>
+                                    <button className="btn btn-warning btn-sm me-2" disabled={asset.status !== "Active"}
+                                        style={{ cursor: asset.status !== "Active" ? "not-allowed" : "pointer" }} onClick={() => setEditAsset(asset)}>
+                                        Edit
+                                    </button>
+                                    <button className="btn btn-danger btn-sm" disabled={asset.status !== "Active"}
+                                        style={{ cursor: asset.status !== "Active" ? "not-allowed" : "pointer" }} onClick={() => deleteAsset(asset.assetId)}>
+                                        Remove
+                                    </button>
                                 </td>
                             </tr>
                         ))
                     }
                 </tbody>
             </table>
+            <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
             {
-                assignAsset && ( <AssignAsset asset={assignAsset} fetchAssets={fetchAssets} closeForm={() => setAssignAsset(null)} />)
+                assignAsset && (<AssignAsset asset={assignAsset} fetchAssets={fetchAssets} closeForm={() => setAssignAsset(null)} />)
             }
             {
-                returnAsset && ( <ReturnAsset asset={returnAsset} fetchAssets={fetchAssets} closeForm={() => setReturnAsset(null)} />)
+                returnAsset && (<ReturnAsset asset={returnAsset} fetchAssets={fetchAssets} closeForm={() => setReturnAsset(null)} />)
             }
         </div>
     )

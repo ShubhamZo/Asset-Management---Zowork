@@ -4,6 +4,7 @@ import AddEmployee from './AddEmployee'
 import EditEmployee from './EditEmployee'
 import AssignEmployeeAsset from '../AssignAsset/AssignEmployeeAsset'
 import EmployeeAssetsModal from './EmployeeAssetModal'
+import Pagination from '../Pagination'
 
 export default function EmployeeManagement() {
     const [employees, setEmployees] = useState([]);
@@ -11,6 +12,12 @@ export default function EmployeeManagement() {
     const [editEmployees, setEditEmployees] = useState(null);
     const [assignEmployee, setAssignEmployee] = useState(null)
     const [selectedEmployee, setSelectedEmployee] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 10
+
+    useEffect(() => {
+        fetchEmployees()
+    }, [])
 
     const fetchEmployees = async () => {
         try {
@@ -21,9 +28,6 @@ export default function EmployeeManagement() {
             console.log(err)
         }
     }
-    useEffect(() => {
-        fetchEmployees()
-    }, [])
 
     const deleteEmployees = async (id) => {
         if (!window.confirm("Are you Sure?"))
@@ -36,6 +40,12 @@ export default function EmployeeManagement() {
             console.log(err)
         }
     }
+
+    const indexOfLastEmployee = currentPage * itemsPerPage
+    const indexOfFirstEmployee = indexOfLastEmployee - itemsPerPage
+    const currentEmployees = employees.slice(indexOfFirstEmployee, indexOfLastEmployee)
+    const totalPages = Math.ceil(employees.length / itemsPerPage)
+
     return (
         <div>
             <div className="d-flex justify-content-between mb-3">
@@ -73,7 +83,7 @@ export default function EmployeeManagement() {
                 </thead>
                 <tbody>
                     {
-                        employees.map((emp) => (
+                        currentEmployees.map((emp) => (
                             <tr key={emp.employeeId} style={{ cursor: 'pointer' }} onClick={() => setSelectedEmployee(emp)}>
                                 <td>{emp.employeeId}</td>
                                 <td>{emp.firstName + ' ' + emp.lastName}</td>
@@ -95,6 +105,7 @@ export default function EmployeeManagement() {
                     }
                 </tbody>
             </table>
+            <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
     )
 }
