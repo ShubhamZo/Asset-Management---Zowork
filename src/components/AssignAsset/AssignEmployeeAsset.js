@@ -14,10 +14,6 @@ export default function AssignEmployeeAsset({ employee, closeForm, fetchEmployee
         conditionAtIssue: ''
     })
 
-    useEffect(() => {
-        fetchAssets()
-    }, [])
-
     const fetchAssets = async () => {
         try {
             const response = await axios.get('https://localhost:7059/api/Asset')
@@ -29,6 +25,10 @@ export default function AssignEmployeeAsset({ employee, closeForm, fetchEmployee
         }
     }
 
+    useEffect(() => {
+        fetchAssets()
+    }, [])
+    
     const handleChange = (e) => {
         setAssignmentData({
             ...assignmentData,

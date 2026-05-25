@@ -16,10 +16,6 @@ export default function AssetManagement() {
     const [currentPage, setCurrentPage] = useState(1)
     const assetsPerPage = 10
 
-    useEffect(() => {
-        fetchAssets()
-    }, [])
-
     const fetchAssets = async () => {
         try {
             const response = await axios.get('https://localhost:7059/api/Asset')
@@ -30,6 +26,10 @@ export default function AssetManagement() {
         }
     }
 
+    useEffect(() => {
+        fetchAssets()
+    }, [])
+    
     const deleteAsset = async (id) => {
         if (!window.confirm("Are you sure?"))
             return

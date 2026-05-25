@@ -8,7 +8,7 @@ export default function Pagination({ currentPage, totalPages, setCurrentPage }) 
                 Back
             </button>
             <span className="mt-2">
-                Page {currentPage} of {totalPages}
+                {currentPage} of {totalPages}
             </span>
             <button className="btn btn-secondary ms-2" disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} >
                 Next

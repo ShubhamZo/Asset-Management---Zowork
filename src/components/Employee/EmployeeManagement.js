@@ -15,10 +15,6 @@ export default function EmployeeManagement() {
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 10
 
-    useEffect(() => {
-        fetchEmployees()
-    }, [])
-
     const fetchEmployees = async () => {
         try {
             const response = await axios.get('https://localhost:7059/api/Employee')
@@ -29,6 +25,10 @@ export default function EmployeeManagement() {
         }
     }
 
+    useEffect(() => {
+        fetchEmployees()
+    }, [])
+    
     const deleteEmployees = async (id) => {
         if (!window.confirm("Are you Sure?"))
             return

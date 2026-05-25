@@ -14,10 +14,6 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
     })
     const [successMessage, setSuccessMessage] = useState('')
 
-    useEffect(() => {
-        fetchEmployees()
-    }, [])
-
     const fetchEmployees = async () => {
         try {
             const response = await axios.get('https://localhost:7059/api/Employee')
@@ -27,6 +23,10 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        fetchEmployees()
+    }, [])
 
     const handleChange = (e) => {
         setAssignmentData({
@@ -68,7 +68,8 @@ export default function AssignAsset({ asset, closeForm, fetchAssets }) {
                     <strong>&nbsp;Asset:</strong> {asset.assetName}
                 </p>
                 <form onSubmit={handleAssign}>
-                    <input type='text' placeholder='Search Employee' className='form-control mb-3' value={search} onChange={(e) => setSearch(e.target.value)} />
+                    <input type='text' placeholder='Search Employee' className='form-control mb-3' value={search} 
+                        onChange={(e) => setSearch(e.target.value)} />
                     <select name='employeeId' className='form-control mb-3' onChange={handleChange} required >
                         <option value=''>Select Employee</option>
                         {

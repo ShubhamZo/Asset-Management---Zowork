@@ -2,24 +2,27 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ReturnAsset from '../AssignAsset/ReturnAsset'
 
-export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployees}) {
+export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployees }) {
 
     const [assignments, setAssignments] = useState([])
     const [returnAsset, setReturnAsset] = useState(null)
-    
-    useEffect(() => {
-        fetchAssignments()
-    }, [])
 
     const fetchAssignments = async () => {
         try {
-            const response = await axios.get( `https://localhost:7059/api/AssetAssignment/employee/${employee.employeeId}`)
+            const response = await axios.get(`https://localhost:7059/api/AssetAssignment/employee/${employee.employeeId}`)
+
+            //console.log(response.data)
             setAssignments(response.data)
         }
         catch (error) {
             console.log(error)
+            //console.log(error.response)
         }
     }
+
+    useEffect(() => {
+        fetchAssignments()
+    }, [])
 
     return (
         <div className='modal-overlay'>
@@ -33,6 +36,7 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
                     <thead className='table-dark'>
                         <tr>
                             <th>Asset</th>
+                            <th>Serial #</th>
                             <th>Assigned Date</th>
                             <th>Expected/Return</th>
                             <th>Status</th>
@@ -45,12 +49,13 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
                             assignments.map((a) => (
                                 <tr key={a.assignmentId}>
                                     <td>{a.assetName}</td>
+                                    <td>{a.serialNumber}</td>
                                     <td>{a.assignedDate?.split('T')[0]}</td>
-                                    <td>{a.expectedReturnDate ?.split('T')[0]}</td>
+                                    <td>{a.expectedReturnDate?.split('T')[0]}</td>
                                     <td>{a.actualReturnDate ? 'Returned' : 'Issued'}</td>
                                     <td>
-                                        { !a.actualReturnDate && ( 
-                                            <button className='btn btn-warning btn-sm' onClick={() => setReturnAsset(a) } > Return  </button> ) } 
+                                        {!a.actualReturnDate && (
+                                            <button className='btn btn-warning btn-sm' onClick={() => setReturnAsset(a)} > Return  </button>)}
                                     </td>
                                 </tr>
                             ))
@@ -59,9 +64,9 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
                 </table>
                 {
                     returnAsset && (
-                        <ReturnAsset asset={{ assetId: returnAsset.assetId, assetName: returnAsset.assetName }} 
-                        fetchAssets={fetchAssignments} closeForm={() => setReturnAsset(null)} />
-                 )
+                        <ReturnAsset asset={{ assetId: returnAsset.assetId, assetName: returnAsset.assetName }}
+                            fetchAssets={fetchAssignments} closeForm={() => setReturnAsset(null)} />
+                    )
                 }
             </div>
         </div>

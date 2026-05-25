@@ -43,7 +43,7 @@ export default function AddAsset({ fetchAssets, closeForm }) {
                 successMessage && <div className="alert alert-success"> {successMessage} </div>
             }
             {
-                errorMessage && (<p className="text-danger">{errorMessage}</p>)
+                errorMessage && (<p className="alert alert-danger">{errorMessage}</p>)
             }
             <form onSubmit={handleSubmit}>
                 <input type="text" name="assetName" placeholder="Asset Name" className="form-control mb-2" onChange={handleChange} />

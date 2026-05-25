@@ -10,17 +10,10 @@ export default function ReturnAsset({ asset, closeForm, fetchAssets }) {
     })
     const [successMessage, setSuccessMessage] = useState('')
 
-    useEffect(() => {
-        fetchAssignment()
-    }, [])
-
     const fetchAssignment = async () => {
 
         try {
-            const response = await axios.get(
-                'https://localhost:7059/api/AssetAssignment'
-            )
-
+            const response = await axios.get('https://localhost:7059/api/AssetAssignment')
             const activeAssignment = response.data.find(
                 (a) =>
                     a.assetId === asset.assetId && a.actualReturnDate === null
@@ -31,6 +24,10 @@ export default function ReturnAsset({ asset, closeForm, fetchAssets }) {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        fetchAssignment()
+    }, [])
 
     const handleChange = (e) => {
         setReturnData({
