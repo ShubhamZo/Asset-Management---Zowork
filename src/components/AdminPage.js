@@ -1,5 +1,6 @@
 import AssetManagement from './Asset/AssetManagement'
 import EmployeeManagement from './Employee/EmployeeManagement'
+import UserManagement from './User/UserManagement'
 import React, {useState} from 'react'
 
 export default function AdminPage() {
@@ -9,6 +10,9 @@ const [activeTab, setActiveTab] = useState("employees");
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
                 <a className="navbar-brand" href="#">Admin Dashboard</a>
                 <div className="navbar-nav ms-4">
+                    <button className="btn btn-dark me-2" onClick={() => setActiveTab("new user")}>
+                        Add User
+                    </button>
                     <button className="btn btn-dark me-2" onClick={() => setActiveTab("employees")}>
                         Employees
                     </button>
@@ -22,6 +26,9 @@ const [activeTab, setActiveTab] = useState("employees");
             </nav>
 
             <div className="container mt-4">
+                {
+                    activeTab === "new user" && <UserManagement />
+                }
                 {
                     activeTab === "employees" && <EmployeeManagement />
                 }

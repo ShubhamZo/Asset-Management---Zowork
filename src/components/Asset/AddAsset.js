@@ -27,9 +27,14 @@ export default function AddAsset({ fetchAssets, closeForm }) {
             //alert("Asset Added")
             setSuccessMessage("Asset added successfully")
             fetchAssets()
-            setTimeout(() => {
+            {/*setTimeout(() => {
                 closeForm()
+            }, 2000) */}
+            setTimeout(() => {
+                setSuccessMessage('')
+                setAsset({ assetName: '', assetType: '', serialNumber: '', purchaseDate: '', status: 'Active'})
             }, 2000)
+
         }
         catch (err) {
                 setErrorMessage(err.response.data);
@@ -46,10 +51,10 @@ export default function AddAsset({ fetchAssets, closeForm }) {
                 errorMessage && (<p className="alert alert-danger">{errorMessage}</p>)
             }
             <form onSubmit={handleSubmit}>
-                <input type="text" name="assetName" placeholder="Asset Name" className="form-control mb-2" onChange={handleChange} />
-                <input type="text" name="assetType" placeholder="Asset Type" className="form-control mb-2" onChange={handleChange} />
-                <input type="text" name="serialNumber" placeholder="Serial Number" className="form-control mb-2" onChange={handleChange} />
-                <input type="date" name="purchaseDate" className="form-control mb-2" onChange={handleChange} />
+                <input type="text" name="assetName" placeholder="Asset Name" className="form-control mb-2" onChange={handleChange} value={asset.assetName}/>
+                <input type="text" name="assetType" placeholder="Asset Type" className="form-control mb-2" onChange={handleChange} value={asset.assetType}/>
+                <input type="text" name="serialNumber" placeholder="Serial Number" className="form-control mb-2" onChange={handleChange} value={asset.serialNumber}/>
+                <input type="date" name="purchaseDate" className="form-control mb-2" onChange={handleChange} value={asset.purchaseDate}/>
                 {
                 /*<select name="status" className="form-control mb-3" onChange={handleChange} >
                     <option value="Active">Active</option>

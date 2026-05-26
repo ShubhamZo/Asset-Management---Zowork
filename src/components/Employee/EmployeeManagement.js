@@ -5,6 +5,7 @@ import EditEmployee from './EditEmployee'
 import AssignEmployeeAsset from '../AssignAsset/AssignEmployeeAsset'
 import EmployeeAssetsModal from './EmployeeAssetModal'
 import Pagination from '../Pagination'
+import SearchBar from '../searchBar'
 
 export default function EmployeeManagement() {
     const [employees, setEmployees] = useState([]);
@@ -14,6 +15,7 @@ export default function EmployeeManagement() {
     const [selectedEmployee, setSelectedEmployee] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 10
+    const [searchTerm, setSearchTerm] = useState('')
 
     const fetchEmployees = async () => {
         try {
@@ -28,7 +30,7 @@ export default function EmployeeManagement() {
     useEffect(() => {
         fetchEmployees()
     }, [])
-    
+
     const deleteEmployees = async (id) => {
         if (!window.confirm("Are you Sure?"))
             return
@@ -41,10 +43,16 @@ export default function EmployeeManagement() {
         }
     }
 
+    const filteredEmployees = employees.filter((emp) => 
+            (emp.firstName + ' ' + emp.lastName).toLowerCase().includes(searchTerm.toLowerCase()) ||
+            emp.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            emp.department.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
     const indexOfLastEmployee = currentPage * itemsPerPage
     const indexOfFirstEmployee = indexOfLastEmployee - itemsPerPage
-    const currentEmployees = employees.slice(indexOfFirstEmployee, indexOfLastEmployee)
-    const totalPages = Math.ceil(employees.length / itemsPerPage)
+    const currentEmployees = filteredEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee)
+    const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage)
 
     return (
         <div>
@@ -53,6 +61,7 @@ export default function EmployeeManagement() {
                 <button className='btn btn-primary' onClick={() => setShowAdd(true)}>
                     Add Employee
                 </button>
+                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder="Search employees..." />
             </div>
             {
                 showAdd &&
