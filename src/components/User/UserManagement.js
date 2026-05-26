@@ -55,6 +55,7 @@ export default function UserManagement() {
             }
 
             await axios.post("https://localhost:7059/api/User", payload)
+            await fetchEmployees()
             setSuccessMessage("User created successfully")
             setTimeout(() => {
                 setSuccessMessage("")
