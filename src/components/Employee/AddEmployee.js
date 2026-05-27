@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 export default function AddEmployee({ fetchEmployees, closeForm }) {
-    const departments = ["HR", "IT", "Development", "Finance", "Operations", "Sales", "Support"]
+    const departments = ["HR", "IT", "Development", "Testing", "Finance", "Operations", "Sales", "Support"]
     const [employee, setEmployee] = useState({
         firstName: '',
         lastName: '',

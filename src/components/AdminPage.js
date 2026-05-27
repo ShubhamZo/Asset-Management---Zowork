@@ -5,6 +5,8 @@ import React, { useState } from 'react'
 
 export default function AdminPage() {
     const [activeTab, setActiveTab] = useState("employees");
+    const [showUserModal, setShowUserModal] = useState(false)
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
@@ -20,7 +22,7 @@ export default function AdminPage() {
                         Tickets
                     </button>
                 </div>
-                <button className="btn btn-dark me-2 ms-auto" onClick={() => setActiveTab("new user")}>
+                <button className="btn btn-dark me-2 ms-auto" onClick={() => setShowUserModal(true)}>
                     <strong>Add User</strong>
                 </button>
             </nav>
@@ -35,8 +37,25 @@ export default function AdminPage() {
                 {
                     activeTab === "tickets" && <h3>Ticket Module...</h3>
                 }
-                {
+                {/*
                     activeTab === "new user" && <UserManagement />
+                */}
+                {
+                    showUserModal && (
+                        <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                            <div className="modal-dialog modal-dialog-centered modal-lg">
+                                <div className="modal-content">
+                                    <div className="modal-header bg-primary text-white">
+                                        <h5 className="modal-title">Create User</h5>
+                                        <button type="button" className="btn-close" onClick={() => setShowUserModal(false)} ></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <UserManagement />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
                 }
             </div>
         </div>

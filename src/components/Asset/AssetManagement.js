@@ -65,8 +65,8 @@ return (
     <div>
         <div className="d-flex justify-content-between mb-3">
             <h2>Asset Management</h2>
-            <button className="btn btn-primary" onClick={() => setShowAdd(true)} > Add Asset </button>
             <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder="Search assets..." />
+            <button className="btn btn-primary" onClick={() => setShowAdd(true)} > Add Asset </button>
         </div>
         {
             showAdd && <AddAsset fetchAssets={fetchAssets} closeForm={() => setShowAdd(false)} />

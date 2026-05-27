@@ -15,6 +15,7 @@ export default function UserManagement() {
 
     const [successMessage, setSuccessMessage] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
+    const [showEmployees, setShowEmployees] = useState(false)
     const fetchEmployees = async () => {
         try {
             const response = await axios.get("https://localhost:7059/api/Employee/available")
@@ -68,22 +69,26 @@ export default function UserManagement() {
             })
             setSelectedEmployee(null)
             setSearch("")
-            setFilteredEmployees(employees)
+            //setFilteredEmployees(employees)
         }
         catch (error) {
             setSuccessMessage("")
-            if (error.response) {
-                setErrorMessage(error.response.data)
+
+            if (error.response && error.response.data?.message) {
+                setErrorMessage(error.response.data.message)
             }
             else {
                 setErrorMessage("Error creating user")
             }
+
+            setTimeout(() => {
+                setErrorMessage("")
+            }, 2000)
         }
     }
 
     return (
-        <div className="card p-4">
-            <h3 className="mb-4">Create User</h3>
+        <div className="card p-4" style={{ minHeight: "550px"}}>
             {
                 successMessage && <div className="alert alert-success"> {successMessage} </div>
             }
@@ -92,71 +97,98 @@ export default function UserManagement() {
             }
 
             <form onSubmit={handleCreateUser}>
-                <div className="mb-3">
-                    <label className="form-label"> <strong>Role</strong> </label>
-                    <select className="form-select" value={userData.role}
-                        onChange={(e) =>
-                            setUserData({
-                                ...userData, role: e.target.value
-                            })
-                        }>
-                        <option value="Employee"> Employee </option>
-                        <option value="Admin"> Admin</option>
-                    </select>
+                <div className="row mb-3 align-items-center">
+                    <div className="col-md-3">
+                        <label className="form-label mb-0">
+                            <strong>Role</strong>
+                        </label>
+                    </div>
+
+                    <div className="col-md-9">
+                        <select className="form-select" value={userData.role}
+                            onChange={(e) =>
+                                setUserData({
+                                    ...userData,
+                                    role: e.target.value
+                                })
+                            }
+                        >
+                            <option value="Employee">Employee</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
                 </div>
                 {
                     userData.role === "Employee" &&
                     <div>
-                        <div className="mb-3">
-                            <label className="form-label"> <strong>Search Employee </strong></label>
-                            <input type="text" className="form-control" placeholder="Search employee..." value={search} onChange={handleSearch} />
-                        </div>
+                        <div className="row mb-3 align-items-start">
+                            <div className="col-md-3">
+                                <label className="form-label mb-0">
+                                    <strong>Search Employee</strong>
+                                </label>
+                            </div>
 
-                        <div className="list-group mb-3" style={{ maxHeight: "200px", overflowY: "auto" }} >
-                            {
-                                filteredEmployees.map(emp => (
-                                    <button
-                                        type="button" key={emp.employeeId} className={`list-group-item list-group-item-action 
-                                            ${selectedEmployee?.employeeId === emp.employeeId ? "active" : ""}`}
-                                        onClick={() =>
-                                            setSelectedEmployee(emp)}> {emp.firstName} {emp.lastName} </button>
-                                ))
-                            }
+                            <div className="col-md-9 position-relative">
+                                <input type="text" className="form-control" placeholder="Search employee..." value={search} onChange={handleSearch} onFocus={() => setShowEmployees(true)} onBlur={() => {
+                                    setTimeout(() => {
+                                        setShowEmployees(false)
+                                    }, 200)
+                                }}
+                                />
+                            </div>
                         </div>
 
                         {
-                            selectedEmployee && <div className="alert alert-info"> Selected Employee:
-                                <strong> {" "} {selectedEmployee.firstName} {selectedEmployee.lastName}</strong> </div>
+                            showEmployees && (
+                                <div className="list-group position-absolute start-0 shadow" 
+                                    style={{ zIndex:1000, maxHeight: "200px", width: "97%", overflowY: "auto" }} >
+                                    {
+                                        filteredEmployees.map(emp => (
+                                            <button type="button" key={emp.employeeId} className="list-group-item list-group-item-action"
+                                                onClick={() => {
+                                                    setSelectedEmployee(emp)
+                                                    setSearch(`${emp.firstName} ${emp.lastName}`)
+                                                    setShowEmployees(false)
+                                                }}>
+                                                    {emp.firstName} {emp.lastName}
+                                            </button>
+                                        ))
+                                    }
+                                </div>
+                            )
                         }
                     </div>
                 }
 
-                <div className="mb-3">
-                    <label className="form-label"><strong>Username</strong>  </label>
+                <div className="row mb-3 align-items-center">
+                    <div className="col-md-3">
+                        <label className="form-label mb-0"> <strong>Username</strong> </label>
+                    </div>
 
-                    <input type="text" className="form-control" value={userData.username}
-                        onChange={(e) =>
+                    <div className="col-md-9">
+                        <input type="text" className="form-control" value={userData.username} onChange={(e) =>
                             setUserData({
                                 ...userData,
                                 username: e.target.value
                             })
-                        }
-                        required
-                    />
+                        } required />
+                    </div>
                 </div>
 
-                <div className="mb-3">
-                    <label className="form-label"><strong> Password </strong> </label>
-                    <input
-                        type="password" className="form-control" value={userData.password}
-                        onChange={(e) =>
+                <div className="row mb-3 align-items-center">
+                    <div className="col-md-3">
+                        <label className="form-label mb-0"> <strong>Password</strong> </label>
+                    </div>
+
+                    <div className="col-md-9">
+                        <input type="password" className="form-control" value={userData.password} onChange={(e) =>
                             setUserData({
                                 ...userData,
                                 password: e.target.value
                             })
                         } required />
+                    </div>
                 </div>
-
                 <button type="submit" className="btn btn-primary" > Create User </button>
             </form>
         </div>

@@ -58,10 +58,10 @@ export default function EmployeeManagement() {
         <div>
             <div className="d-flex justify-content-between mb-3">
                 <h2>Employee Management</h2>
+                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder="Search employees..." />
                 <button className='btn btn-primary' onClick={() => setShowAdd(true)}>
                     Add Employee
                 </button>
-                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder="Search employees..." />
             </div>
             {
                 showAdd &&
