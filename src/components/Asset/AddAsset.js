@@ -22,6 +22,10 @@ export default function AddAsset({ fetchAssets, closeForm }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if(!asset.assetName || !asset.assetType || !asset.serialNumber || !asset.purchaseDate) {
+            setErrorMessage("Please enter Values");
+            return;
+        }
         try {
             await axios.post('https://localhost:7059/api/Asset', asset)
             //alert("Asset Added")
@@ -51,10 +55,18 @@ export default function AddAsset({ fetchAssets, closeForm }) {
                 errorMessage && (<p className="alert alert-danger">{errorMessage}</p>)
             }
             <form onSubmit={handleSubmit}>
-                <input type="text" name="assetName" placeholder="Asset Name" className="form-control mb-2" onChange={handleChange} value={asset.assetName}/>
-                <input type="text" name="assetType" placeholder="Asset Type" className="form-control mb-2" onChange={handleChange} value={asset.assetType}/>
-                <input type="text" name="serialNumber" placeholder="Serial Number" className="form-control mb-2" onChange={handleChange} value={asset.serialNumber}/>
-                <input type="date" name="purchaseDate" className="form-control mb-2" onChange={handleChange} value={asset.purchaseDate}/>
+                <input type="text" name="assetName" placeholder="Asset Name" 
+                    className={`form-control mb-2 ${errorMessage && !asset.assetName.trim() ? 
+                        'is-invalid' : ''}`} onChange={handleChange} value={asset.assetName}/>
+                <input type="text" name="assetType" placeholder="Asset Type" 
+                    className={`form-control mb-2 ${errorMessage && !asset.assetType.trim() ? 
+                        'is-invalid' : ''}`}  onChange={handleChange} value={asset.assetType}/>
+                <input type="text" name="serialNumber" placeholder="Serial Number" 
+                    className={`form-control mb-2 ${errorMessage && !asset.serialNumber.trim() ? 
+                        'is-invalid' : ''}`}  onChange={handleChange} value={asset.serialNumber}/>
+                <input type="date" name="purchaseDate" placeholder="Purchase Date"
+                    className={`form-control mb-2 ${errorMessage && !asset.purchaseDate.trim() ? 
+                        'is-invalid' : ''}`}  onChange={handleChange} value={asset.purchaseDate}/>
                 {
                 /*<select name="status" className="form-control mb-3" onChange={handleChange} >
                     <option value="Active">Active</option>

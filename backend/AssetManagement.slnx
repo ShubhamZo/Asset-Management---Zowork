@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="AssetManagement.API/AssetManagement.API.csproj" />
+  <Project Path="AssetManagement.Business/AssetManagement.Business.csproj" />
+  <Project Path="AssetManagement.Data/AssetManagement.Data.csproj" />
+  <Project Path="AssetManagement.Model/AssetManagement.Model.csproj" />
+</Solution>

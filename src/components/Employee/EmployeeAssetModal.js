@@ -32,7 +32,7 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
                     <button className='btn btn-danger btn-sm' onClick={closeForm} > Close </button>
                 </div>
 
-                <table className='table table-bordered mt-3'>
+                <table className='table table-bordered table-striped mt-3'>
                     <thead className='table-dark'>
                         <tr>
                             <th>Asset</th>
@@ -46,19 +46,25 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
 
                     <tbody>
                         {
-                            assignments.map((a) => (
-                                <tr key={a.assignmentId}>
-                                    <td>{a.assetName}</td>
-                                    <td>{a.serialNumber}</td>
-                                    <td>{a.assignedDate?.split('T')[0]}</td>
-                                    <td>{a.expectedReturnDate?.split('T')[0]}</td>
-                                    <td>{a.actualReturnDate ? 'Returned' : 'Issued'}</td>
-                                    <td>
-                                        {!a.actualReturnDate && (
-                                            <button className='btn btn-warning btn-sm' onClick={() => setReturnAsset(a)} > Return  </button>)}
-                                    </td>
+                            assignments.length > 0 ? (
+                                assignments.map((a) => (
+                                    <tr key={a.assignmentId}>
+                                        <td>{a.assetName}</td>
+                                        <td>{a.serialNumber}</td>
+                                        <td>{a.assignedDate?.split('T')[0]}</td>
+                                        <td>{a.expectedReturnDate?.split('T')[0]}</td>
+                                        <td>{a.actualReturnDate ? 'Returned' : 'Issued'}</td>
+                                        <td>
+                                            {!a.actualReturnDate && (
+                                                <button className='btn btn-warning btn-sm' onClick={() => setReturnAsset(a)} > Return  </button>)}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6" className="text-center" > No assignment history found </td>
                                 </tr>
-                            ))
+                            )
                         }
                     </tbody>
                 </table>

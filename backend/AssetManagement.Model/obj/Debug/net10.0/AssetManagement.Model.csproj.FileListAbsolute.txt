@@ -1,0 +1,15 @@
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\bin\Debug\net10.0\AssetManagement.Model.deps.json
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\bin\Debug\net10.0\AssetManagement.Model.runtimeconfig.json
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\bin\Debug\net10.0\AssetManagement.Model.dll
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\bin\Debug\net10.0\AssetManagement.Model.pdb
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.csproj.AssemblyReference.cache
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.AssemblyInfoInputs.cache
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.AssemblyInfo.cs
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.csproj.CoreCompileInputs.cache
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.sourcelink.json
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.dll
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\refint\AssetManagement.Model.dll
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.pdb
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\AssetManagement.Model.genruntimeconfig.cache
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.Model\obj\Debug\net10.0\ref\AssetManagement.Model.dll

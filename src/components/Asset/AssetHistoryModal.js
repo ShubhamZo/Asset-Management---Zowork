@@ -24,8 +24,6 @@ export default function AssetHistoryModal({ asset, closeForm }) {
         fetchHistory()
     }, [])
 
-
-
     const fetchDocuments = async () => {
         try {
             const response = await axios.get(`https://localhost:7059/api/AssetDocument/asset/${asset.assetId}`)
@@ -48,6 +46,7 @@ export default function AssetHistoryModal({ asset, closeForm }) {
             throw err;
         }
     }
+    
     return (
         <>
             <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} >

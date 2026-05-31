@@ -1,0 +1,17 @@
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\51d2c355-45dc-4b0a-8f4f-8def8ef7f98a_Test3.txt
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\b64d4576-74d6-4c2e-9d00-439e2997b0cf_Test1.txt
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\b9d29fd7-56ee-4de7-ace2-e37a760a8ba0_Test5.txt
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\fdca6e55-689d-496e-9a40-ef90bcc147f1_Test1.txt
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\b9259513-b0ad-4148-a17f-9ca7f7926cb0_Test2.txt
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\b4ac0cfd-02a9-46c9-ac77-8889ff570ade_Test3.txt
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\e167fe5e-5866-44fe-bbe3-d0ed3048a01f_Test2.txt
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\wwwroot\uploads\assets\e4970195-d590-4c8e-83cb-8d893379dc46_Test1.txt
+wwwroot\uploads\assets\2a18033f-741a-419f-81f0-1211b356f324_Test4.rtf
+wwwroot\uploads\assets\51d2c355-45dc-4b0a-8f4f-8def8ef7f98a_Test3.txt
+wwwroot\uploads\assets\b4ac0cfd-02a9-46c9-ac77-8889ff570ade_Test3.txt
+wwwroot\uploads\assets\b64d4576-74d6-4c2e-9d00-439e2997b0cf_Test1.txt
+wwwroot\uploads\assets\b9259513-b0ad-4148-a17f-9ca7f7926cb0_Test2.txt
+wwwroot\uploads\assets\b9d29fd7-56ee-4de7-ace2-e37a760a8ba0_Test5.txt
+wwwroot\uploads\assets\e167fe5e-5866-44fe-bbe3-d0ed3048a01f_Test2.txt
+wwwroot\uploads\assets\e4970195-d590-4c8e-83cb-8d893379dc46_Test1.txt
+wwwroot\uploads\assets\fdca6e55-689d-496e-9a40-ef90bcc147f1_Test1.txt
