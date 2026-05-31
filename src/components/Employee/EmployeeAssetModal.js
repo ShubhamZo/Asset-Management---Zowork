@@ -38,7 +38,7 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
                             <th>Asset</th>
                             <th>Serial #</th>
                             <th>Assigned Date</th>
-                            <th>Expected/Return</th>
+                            <th>Expected/Returned</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>

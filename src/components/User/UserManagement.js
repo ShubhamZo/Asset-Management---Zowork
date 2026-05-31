@@ -36,7 +36,8 @@ export default function UserManagement() {
         const value = e.target.value
         setSearch(value)
         const filtered = employees.filter(emp =>
-            `${emp.firstName} ${emp.lastName}`.toLowerCase().includes(value.toLowerCase())
+            `${emp.firstName} ${emp.lastName}`.toLowerCase().includes(value.toLowerCase()) ||
+            `${emp.employeeId}`.includes(value)
         )
         setFilteredEmployees(filtered)
     }
@@ -150,7 +151,7 @@ export default function UserManagement() {
                                                     setSearch(`${emp.firstName} ${emp.lastName}`)
                                                     setShowEmployees(false)
                                                 }}>
-                                                    {emp.firstName} {emp.lastName}
+                                                    #{emp.employeeId} - {emp.firstName} {emp.lastName}
                                             </button>
                                         ))
                                     }
