@@ -1,5 +1,6 @@
 ﻿using AssetManagement.Business.Interface;
 using AssetManagement.Data.Interface;
+using AssetManagement.Data.Repositories;
 using AssetManagement.Model.DTO.AssetAssignDto;
 using AssetManagement.Model.Entities;
 using AssetManagement.Model.Enum;
@@ -111,6 +112,25 @@ namespace AssetManagement.Business.Services
         public async Task<IEnumerable<AssetAssignmentHistoryDTO>> GetAssetHistory(int assetId)
         {
             return await _assignmentRepo.GetAssetHistory(assetId);
+        }
+        public async Task<IEnumerable<EmployeeCurrentAssetDTO>> GetCurrentAssetsByEmployee(int employeeId)
+        {
+            var currentAssignments = await _assignmentRepo.GetCurrentAssignmentByEmployee(employeeId);
+            return currentAssignments.Select(a => new EmployeeCurrentAssetDTO
+            {
+                AssignmentId = a.AssignmentId,
+                AssetId = a.AssetId,
+                AssetName = a.Asset.AssetName,
+                AssetType = a.Asset.AssetType,
+                SerialNumber = a.Asset.SerialNumber,
+                AssignedDate = a.AssignedDate,
+                ExpectedReturnDate = a.ExpectedReturnDate,
+                ConditionAtIssue = a.ConditionAtIssue
+            });
+        }
+        public async Task ReturnAsset(ReturnAssetDTO dto)
+        {
+            await _assignmentRepo.ReturnAsset(dto);
         }
     }
 }

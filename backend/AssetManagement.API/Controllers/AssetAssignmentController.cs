@@ -49,5 +49,17 @@ namespace AssetManagement.API.Controllers
 
             return Ok(history);
         }
+        [HttpGet("current-assets/{employeeId}")]
+        public async Task<IActionResult> GetCurrentAssets(int employeeId)
+        {
+            var assets = await _service.GetCurrentAssetsByEmployee(employeeId);
+            return Ok(assets);
+        }
+        [HttpPut("return")]
+        public async Task<IActionResult> ReturnAsset(ReturnAssetDTO dto)
+        {
+            await _service.ReturnAsset(dto);
+            return Ok();
+        }
     }
 }

@@ -12,5 +12,8 @@ namespace AssetManagement.Business.Interface
         Task ReturnAsset(int assignmentId, UpdateAssetAssignmentDTO dto);
         Task<IEnumerable<AssetAssignmentResponseDTO>> GetAssignmentsByEmployee(int employeeId);
         Task<IEnumerable<AssetAssignmentHistoryDTO>> GetAssetHistory(int assetId);
+        Task<IEnumerable<EmployeeCurrentAssetDTO>> GetCurrentAssetsByEmployee(int employeeId);
+        Task ReturnAsset(ReturnAssetDTO dto);
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssetManagement.Model.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,4 +12,4 @@ namespace AssetManagement.Model.Enum
         UnderMaintenance, 
         Retired
     }
-}
+} 

@@ -39,6 +39,9 @@ builder.Services.AddScoped<IAssetAssignmentService, AssetAssignmentService>();
 builder.Services.AddScoped<IAssetDocumentRepository, AssetDocumentRepository>();
 builder.Services.AddScoped<IAssetDocumentService, AssetDocumentService>();
 
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEmployeeValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAssetValidator>();

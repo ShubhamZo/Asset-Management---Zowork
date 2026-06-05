@@ -11,7 +11,7 @@ namespace AssetManagement.Model.Entities
         public int AssignmentId { get; set; }
         [Required]
         public int AssetId { get; set; }
-        public int? EmployeeId { get; set; } // Nullable for unassigned assets
+        public int? EmployeeId { get; set; } 
         public DateTime? AssignedDate { get; set; }
         public DateTime? ExpectedReturnDate { get; set; }
         public DateTime? ActualReturnDate { get; set; }

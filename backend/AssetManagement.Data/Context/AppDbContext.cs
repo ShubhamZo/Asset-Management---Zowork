@@ -74,7 +74,10 @@ namespace AssetManagement.Data.Context
                 .Property(u => u.Role)
                 .HasConversion<string>();
 
-            /*
+            modelBuilder.Entity<Ticket>()
+                .Property(t => t.Status)
+                .HasConversion<string>();
+            
             modelBuilder.Entity<Ticket>()
                 .HasOne(t => t.Employee)
                 .WithMany(e => e.Tickets)
@@ -90,7 +93,7 @@ namespace AssetManagement.Data.Context
                 .WithMany(a => a.Documents)
                 .HasForeignKey(d => d.AssetId);
 
-            modelBuilder.Entity<MaintenanceLog>()
+            /*modelBuilder.Entity<MaintenanceLog>()
                 .HasOne(m => m.Asset)
                 .WithMany(a => a.MaintenanceLogs)
                 .HasForeignKey(m => m.AssetId);

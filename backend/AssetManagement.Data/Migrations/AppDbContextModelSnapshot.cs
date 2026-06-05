@@ -260,10 +260,7 @@ namespace AssetManagement.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Priority")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ResolvedDate")
+                    b.Property<DateTime?>("ResolvedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
