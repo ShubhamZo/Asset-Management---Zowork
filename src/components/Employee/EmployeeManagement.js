@@ -31,6 +31,10 @@ export default function EmployeeManagement() {
         fetchEmployees()
     }, [])
 
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchTerm])
+
     const deleteEmployees = async (id) => {
         if (!window.confirm("Are you Sure?"))
             return
@@ -43,10 +47,10 @@ export default function EmployeeManagement() {
         }
     }
 
-    const filteredEmployees = employees.filter((emp) => 
-            (emp.firstName + ' ' + emp.lastName).toLowerCase().includes(searchTerm.toLowerCase()) ||
-            emp.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            emp.department.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredEmployees = employees.filter((emp) =>
+        (emp.firstName + ' ' + emp.lastName).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        emp.department.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
     const indexOfLastEmployee = currentPage * itemsPerPage
@@ -79,41 +83,50 @@ export default function EmployeeManagement() {
                 selectedEmployee &&
                 (<EmployeeAssetsModal employee={selectedEmployee} fetchEmployees={fetchEmployees} closeForm={() => setSelectedEmployee(null)} />)
             }
-            <table className="table table-bordered table-striped table-hover">
-
-                <thead className="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Department</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        currentEmployees.map((emp) => (
-                            <tr key={emp.employeeId} style={{ cursor: 'pointer' }} onClick={() => setSelectedEmployee(emp)}>
-                                <td>{emp.employeeId}</td>
-                                <td>{emp.firstName + ' ' + emp.lastName}</td>
-                                <td>{emp.email}</td>
-                                <td>{emp.department}</td>
-                                <td>
-                                    <button className='btn btn-success btn-sm me-2' onClick={(e) => { e.stopPropagation(); setAssignEmployee(emp) }} >
-                                        Assign
-                                    </button>
-                                    <button className="btn btn-warning btn-sm me-2" onClick={(e) => { e.stopPropagation(); setEditEmployees(emp) }} >
-                                        Edit
-                                    </button>
-                                    <button className="btn btn-danger btn-sm" onClick={(e) => { e.stopPropagation(); deleteEmployees(emp.employeeId) }}>
-                                        Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <div style={{ minHeight: '550px' }}>
+                <table className="table table-bordered table-striped table-hover" style={{ tableLayout: 'fixed', width: '100%' }}>
+                    <thead className="table-dark">
+                        <tr>
+                            <th style={{ width: '80px' }}>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            currentEmployees.length > 0 ?
+                                (currentEmployees.map((emp) => (
+                                    <tr key={emp.employeeId} style={{ cursor: 'pointer' }} onClick={() => setSelectedEmployee(emp)}>
+                                        <td>{emp.employeeId}</td>
+                                        <td>{emp.firstName + ' ' + emp.lastName}</td>
+                                        <td>{emp.email}</td>
+                                        <td>{emp.department}</td>
+                                        <td>
+                                            <button className='btn btn-success btn-sm me-2'
+                                                onClick={(e) => { e.stopPropagation(); setAssignEmployee(emp) }} >
+                                                Assign
+                                            </button>
+                                            <button className="btn btn-warning btn-sm me-2"
+                                                onClick={(e) => { e.stopPropagation(); setEditEmployees(emp) }} >
+                                                Edit
+                                            </button>
+                                            <button className="btn btn-danger btn-sm"
+                                                onClick={(e) => { e.stopPropagation(); deleteEmployees(emp.employeeId) }}>
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))) : (
+                                    <tr>
+                                        <td colSpan="5" className="text-center"> No employees found </td>
+                                    </tr>
+                                )
+                        }
+                    </tbody>
+                </table>
+            </div>
             <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
     )

@@ -89,7 +89,7 @@ export default function UserManagement() {
     }
 
     return (
-        <div className="card p-4" style={{ minHeight: "550px"}}>
+        <div className="card p-4" style={{ minHeight: "350px"}}>
             {
                 successMessage && <div className="alert alert-success"> {successMessage} </div>
             }

@@ -33,6 +33,10 @@ export default function AssetManagement() {
         fetchAssets()
     }, [])
 
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchTerm])
+
     const deleteAsset = async (id) => {
         if (!window.confirm("Are you sure?"))
             return
@@ -75,52 +79,59 @@ export default function AssetManagement() {
                 editAsset && <EditAsset asset={editAsset} fetchAssets={fetchAssets} closeForm={() => setEditAsset(null)} />
             }
             {
-                selectedAsset && ( <AssetHistoryModal asset={selectedAsset} closeForm={() => setSelectedAsset(null)} /> )
+                selectedAsset && (<AssetHistoryModal asset={selectedAsset} closeForm={() => setSelectedAsset(null)} />)
             }
-            <table className="table table-bordered table-striped">
-                <thead className="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Asset Name</th>
-                        <th>Asset Type</th>
-                        <th>Serial Number</th>
-                        <th>Status</th>
-                        <th>Purchase Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        currentAssets.map((asset) => (
-                            <tr key={asset.assetId} style={{ cursor: 'pointer' }} onClick={() => setSelectedAsset(asset)}>
-                                <td>{asset.assetId}</td>
-                                <td>{asset.assetName}</td>
-                                <td>{asset.assetType}</td>
-                                <td>{asset.serialNumber}</td>
-                                <td>{asset.status}</td>
-                                <td>{asset.purchaseDate?.split('T')[0]}</td>
-                                <td>
-                                    {
-                                        asset.status === "Issued" ? (
-                                            <button className='btn btn-info btn-sm me-2' onClick={(e) =>  {e.stopPropagation(); setReturnAsset(asset)}} > Return </button>
-                                        ) : (
-                                            <button className='btn btn-success btn-sm me-2' onClick={(e) =>  {e.stopPropagation(); setAssignAsset(asset)}} > Assign </button>
-                                        )
-                                    }
-                                    <button className="btn btn-warning btn-sm me-2" disabled={asset.status !== "Active"}
-                                        style={{ cursor: asset.status !== "Active" ? "not-allowed" : "pointer" }} onClick={(e) => { e.stopPropagation(); setEditAsset(asset)}}>
-                                        Edit
-                                    </button>
-                                    <button className="btn btn-danger btn-sm" disabled={asset.status !== "Active"}
-                                        style={{ cursor: asset.status !== "Active" ? "not-allowed" : "pointer" }} onClick={(e) => { e.stopPropagation(); deleteAsset(asset.assetId)}}>
-                                        Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <div style={{ minHeight: '550px' }}>
+                <table className="table table-bordered table-striped" style={{ tableLayout: 'fixed', width: '100%' }}>
+                    <thead className="table-dark">
+                        <tr>
+                            <th style={{ width: '80px' }}>ID</th>
+                            <th>Asset Name</th>
+                            <th>Asset Type</th>
+                            <th>Serial Number</th>
+                            <th>Status</th>
+                            <th>Purchase Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            currentAssets.length > 0 ?
+                                (currentAssets.map((asset) => (
+                                    <tr key={asset.assetId} style={{ cursor: 'pointer' }} onClick={() => setSelectedAsset(asset)}>
+                                        <td>{asset.assetId}</td>
+                                        <td>{asset.assetName}</td>
+                                        <td>{asset.assetType}</td>
+                                        <td>{asset.serialNumber}</td>
+                                        <td>{asset.status}</td>
+                                        <td>{asset.purchaseDate?.split('T')[0]}</td>
+                                        <td className="text-nowrap">
+                                            {
+                                                asset.status === "Issued" ? (
+                                                    <button className='btn btn-info btn-sm me-2' onClick={(e) => { e.stopPropagation(); setReturnAsset(asset) }} > Return </button>
+                                                ) : (
+                                                    <button className='btn btn-success btn-sm me-2' onClick={(e) => { e.stopPropagation(); setAssignAsset(asset) }} > Assign </button>
+                                                )
+                                            }
+                                            <button className="btn btn-warning btn-sm me-2" disabled={asset.status !== "Active"}
+                                                style={{ cursor: asset.status !== "Active" ? "not-allowed" : "pointer" }} onClick={(e) => { e.stopPropagation(); setEditAsset(asset) }}>
+                                                Edit
+                                            </button>
+                                            <button className="btn btn-danger btn-sm" disabled={asset.status !== "Active"}
+                                                style={{ cursor: asset.status !== "Active" ? "not-allowed" : "pointer" }} onClick={(e) => { e.stopPropagation(); deleteAsset(asset.assetId) }}>
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))) : (
+                                    <tr>
+                                        <td colSpan="7" className="text-center"> No assets found </td>
+                                    </tr>
+                                )
+                        }
+                    </tbody>
+                </table>
+            </div>
             <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
             {
                 assignAsset && (<AssignAsset asset={assignAsset} fetchAssets={fetchAssets} closeForm={() => setAssignAsset(null)} />)

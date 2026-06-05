@@ -55,3 +55,7 @@
     border-radius: 10px;
     width: 400px;
 }
+
+/*.modal-backdrop.show {
+    opacity: 0.75 !important;
+}*/
