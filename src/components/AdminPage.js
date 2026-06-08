@@ -1,5 +1,6 @@
 import AssetManagement from './Asset/AssetManagement'
 import EmployeeManagement from './Employee/EmployeeManagement'
+import TicketManagement from './Ticket/TicketManagement';
 import UserManagement from './User/UserManagement'
 import React, { useState } from 'react'
 
@@ -35,7 +36,7 @@ export default function AdminPage() {
                     activeTab === "assets" && <AssetManagement />
                 }
                 {
-                    activeTab === "tickets" && <h3>Ticket Module...</h3>
+                    activeTab === "tickets" && <TicketManagement />
                 }
                 {/*
                     activeTab === "new user" && <UserManagement />

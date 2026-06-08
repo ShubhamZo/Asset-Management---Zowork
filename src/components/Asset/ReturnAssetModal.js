@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
-export default function ReturnAssetModal({ asset, closeForm, fetchAssets }) {
+export default function ReturnAssetModal({ asset, closeForm, fetchAssets, fetchOpenTickets }) {
     const [condition, setCondition] = useState('')
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -13,7 +13,8 @@ export default function ReturnAssetModal({ asset, closeForm, fetchAssets }) {
                     conditionAtReturn: condition
                 }
             )
-            fetchAssets()
+            await fetchAssets()
+            await fetchOpenTickets()
             closeForm()
 
         } catch (error) {

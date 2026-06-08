@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import ReturnAssetModal from './ReturnAssetModal'
+import ReturnAssetModal from '../Asset/ReturnAssetModal'
 import RaiseTicketModal from '../Ticket/RaiseTicketModal'
 
 export default function EmployeeDashboard() {
@@ -68,9 +68,12 @@ export default function EmployeeDashboard() {
 
     return (
         <div className="container mt-4">
-            <h2>
-                Welcome, {user.username}
-            </h2>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+                <a className="navbar-brand" href="#">Employee Dashboard</a>
+            </nav>
+            <div className="d-flex justify-content-between mt-3 mb-4">
+                <h2>Welcome, {user.username}</h2>
+            </div>
             <div className="row mb-4 justify-content-center">
                 <div className="col-md-4">
                     <div className={`card shadow ${activeTab === "assets" ? "border-primary" : ""}`}
@@ -212,7 +215,8 @@ export default function EmployeeDashboard() {
                 )}
                 {
                     selectedAsset && (
-                        <ReturnAssetModal asset={selectedAsset} closeForm={() => setSelectedAsset(null)} fetchAssets={fetchAssets} />
+                        <ReturnAssetModal asset={selectedAsset} closeForm={() => setSelectedAsset(null)} fetchAssets={fetchAssets}
+                            fetchOpenTickets={fetchOpenTickets} />
                     )
                 }
                 {

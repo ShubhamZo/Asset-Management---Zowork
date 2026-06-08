@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AssetHistoryTab from './AssetHistoryTab'
 import AssetUploadDocsTab from './AssetUploadDocsTab'
 import AssetViewDocs from './AssetViewDocs'
+import AssetViewTickets from './AssetViewTickets'
 import axios from 'axios'
 
 export default function AssetHistoryModal({ asset, closeForm }) {
@@ -9,7 +10,7 @@ export default function AssetHistoryModal({ asset, closeForm }) {
     const [history, setHistory] = useState([])
     const [activeTab, setActiveTab] = useState('history')
     const [documents, setDocuments] = useState([])
-
+    const [tickets, setTickets] = useState([])
     const fetchHistory = async () => {
         try {
             const response = await axios.get(`https://localhost:7059/api/AssetAssignment/history/${asset.assetId}`)
@@ -34,6 +35,16 @@ export default function AssetHistoryModal({ asset, closeForm }) {
         }
     }
 
+    const fetchTickets = async () => {
+        try {
+            const response = await axios.get(`https://localhost:7059/api/Ticket/asset/${asset.assetId}`)
+            setTickets(response.data)
+        }
+        catch (err) {
+            console.log(err)
+            setTickets([])
+        }
+    }
     const deleteDocument = async (documentId) => {
         if (!window.confirm("Delete this document?"))
             return
@@ -46,7 +57,7 @@ export default function AssetHistoryModal({ asset, closeForm }) {
             throw err;
         }
     }
-    
+
     return (
         <>
             <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} >
@@ -60,9 +71,9 @@ export default function AssetHistoryModal({ asset, closeForm }) {
                             <button className="btn-close" onClick={closeForm} ></button>
                         </div>
 
-                        <div className="modal-body">
+                        <div className="modal-body" style={{ height: "350px", overflowY: "auto" }}>
                             <h6 className="mb-3">
-                                Asset:{" "} <strong>{asset.assetId} - {asset.assetName}</strong>
+                                Asset:{" #"} <strong>{asset.assetId} - {asset.assetName}</strong>
                             </h6>
                             <div className="d-flex justify-content-center gap-2 mb-3">
                                 <button className={`btn ${activeTab === 'history' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
@@ -80,10 +91,18 @@ export default function AssetHistoryModal({ asset, closeForm }) {
                                     }}>
                                     View Documents
                                 </button>
+                                <button className={`btn ${activeTab === 'viewTickets' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
+                                    onClick={() => {
+                                        setActiveTab("viewTickets")
+                                        fetchTickets()
+                                    }}>
+                                    View Tickets
+                                </button>
                             </div>
                             {activeTab === 'history' && (<AssetHistoryTab history={history} />)}
                             {activeTab === 'upload' && (<AssetUploadDocsTab assetId={asset.assetId} />)}
                             {activeTab === 'viewDocs' && (<AssetViewDocs documents={documents} deleteDocument={deleteDocument} />)}
+                            {activeTab === 'viewTickets' && (<AssetViewTickets tickets={tickets} />)}
                         </div>
                     </div>
                 </div>
