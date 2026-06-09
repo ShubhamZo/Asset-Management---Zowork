@@ -22,6 +22,8 @@ namespace AssetManagement.Model.Entities
         public int AssetId { get; set; }
         [Required]
         public int EmployeeId { get; set; }
+        public int? AssignedEmployeeId { get; set; }
+        public Employee AssignedEmployee { get; set; }
         public Asset Asset { get; set; }
         public Employee Employee { get; set; }
     }

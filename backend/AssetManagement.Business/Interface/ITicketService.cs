@@ -12,5 +12,8 @@ namespace AssetManagement.Business.Interface
         Task<int> GetOpenTicketCount(int employeeId);
         Task<int> GetTotalTicketCountById(int employeeId);
         Task<IEnumerable<TicketResponseDto>> GetTicketsByEmployee(int employeeId);
+        Task<List<TicketForAssetDto>> GetTicketsByAssetId(int assetId);
+        Task <IEnumerable<TicketResponseDto>> GetAllTickets();
+        Task AssignTicketAsync( int ticketId, AssignTicketDTO dto );
     }
 }

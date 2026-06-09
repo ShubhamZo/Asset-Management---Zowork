@@ -332,6 +332,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AssetManagement.API.Controllers.EmployeeController",
+    "Method": "GetITEmployees",
+    "RelativePath": "api/Employee/it",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AssetManagement.API.Controllers.TicketController",
     "Method": "RaiseTicket",
     "RelativePath": "api/Ticket",
@@ -342,6 +352,53 @@
       {
         "Name": "dto",
         "Type": "AssetManagement.Model.DTO.TicketDto.CreateTicketDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AssetManagement.API.Controllers.TicketController",
+    "Method": "GetAllTickets",
+    "RelativePath": "api/Ticket",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AssetManagement.API.Controllers.TicketController",
+    "Method": "AssignTicket",
+    "RelativePath": "api/Ticket/{ticketId}/assign",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticketId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "AssetManagement.Model.DTO.TicketDto.AssignTicketDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AssetManagement.API.Controllers.TicketController",
+    "Method": "GetTicketsByAssetId",
+    "RelativePath": "api/Ticket/asset/{assetId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assetId",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

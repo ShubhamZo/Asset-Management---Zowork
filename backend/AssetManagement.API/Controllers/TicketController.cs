@@ -1,6 +1,8 @@
 ﻿using AssetManagement.Business.Interface;
 using AssetManagement.Model.DTO.TicketDto;
+using AssetManagement.Model.Enum;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AssetManagement.API.Controllers
 {
@@ -36,6 +38,24 @@ namespace AssetManagement.API.Controllers
         {
             var tickets = await _ticketService.GetTicketsByEmployee(employeeId);
             return Ok(tickets);
+        }
+        [HttpGet("asset/{assetId}")]
+        public async Task<IActionResult> GetTicketsByAssetId(int assetId)
+        {
+            var tickets = await _ticketService.GetTicketsByAssetId(assetId);
+            return Ok(tickets);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllTickets()
+        {
+            var tickets = await _ticketService.GetAllTickets();
+            return Ok(tickets);
+        }
+        [HttpPut("{ticketId}/assign")]
+        public async Task<IActionResult> AssignTicket(int ticketId, [FromBody] AssignTicketDTO dto)
+        {
+            await _ticketService.AssignTicketAsync(ticketId, dto);
+            return Ok("Ticket assigned successfully");
         }
     }
 }

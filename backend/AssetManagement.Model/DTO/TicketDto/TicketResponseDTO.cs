@@ -15,5 +15,8 @@ namespace AssetManagement.Model.DTO.TicketDto
         public string AssetName { get; set; }
         public string SerialNumber { get; set; }
         public bool IsAssetCurrentlyAssigned { get; set; }
+        public int? AssignedEmployeeId { get; set; }
+        public int EmployeeId { get; set; }
+        public string AssignedEmployeeName { get; set; }
     }
 }

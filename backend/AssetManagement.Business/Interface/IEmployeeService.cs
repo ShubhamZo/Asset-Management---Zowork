@@ -13,5 +13,6 @@ namespace AssetManagement.Business.Interface
         Task UpdateEmployee(int id, CreateEmployeeDTO dto);
         Task<bool> DeleteEmployee(int id);
         Task<IEnumerable<EmployeeDTO>> GetAvailableEmployees();
+        Task<IEnumerable<EmployeeDropdownDTO>> GetITEmployees();
     }
 }

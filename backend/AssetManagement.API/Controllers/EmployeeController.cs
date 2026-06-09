@@ -54,5 +54,12 @@ namespace AssetManagement.API.Controllers
             var employees = await _empService.GetAvailableEmployees();
             return Ok(employees);
         }
+        [HttpGet("it")]
+        public async Task<IActionResult> GetITEmployees()
+        {
+            var employees = await _empService.GetITEmployees();
+            return Ok(employees);
+        }
+
     }
 }

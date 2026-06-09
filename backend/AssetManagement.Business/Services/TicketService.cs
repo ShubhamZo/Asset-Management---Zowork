@@ -24,13 +24,13 @@ namespace AssetManagement.Business.Services
         }
         public async Task RaiseTicket(CreateTicketDto dto)
         {
-          var asset = await _assetRepo.GetByIdAsync(dto.AssetId);
-            if(asset == null)
+            var asset = await _assetRepo.GetByIdAsync(dto.AssetId);
+            if (asset == null)
             {
                 throw new ArgumentException("Asset not found");
             }
             var employee = await _employeeRepo.GetByIdAsync(dto.EmployeeId);
-            if(employee == null)
+            if (employee == null)
             {
                 throw new ArgumentException("Employee not found");
             }
@@ -71,11 +71,63 @@ namespace AssetManagement.Business.Services
                     AssetId = t.AssetId,
                     AssetName = t.Asset?.AssetName ?? "Unknown Asset",
                     SerialNumber = t.Asset?.SerialNumber ?? "-",
-                    IsAssetCurrentlyAssigned = t.Asset?.AssetAssignments?.Any(a => 
+                    IsAssetCurrentlyAssigned = t.Asset?.AssetAssignments?.Any(a =>
                         a.EmployeeId == employeeId &&
                         a.ActualReturnDate == null
                         ) ?? false
                 }).OrderByDescending(t => t.CreatedAt);
+        }
+        public async Task<List<TicketForAssetDto>> GetTicketsByAssetId(int assetId)
+        {
+            var tickets = await _ticketRepository.GetTicketsByAssetId(assetId);
+            return tickets.Select(t => new TicketForAssetDto
+            {
+                TicketId = t.TicketId,
+                Title = t.Title,
+                Description = t.Description,
+                Status = t.Status.ToString(),
+                EmployeeId = t.EmployeeId,
+                EmployeeName = t.Employee?.FirstName + " " + t.Employee?.LastName,
+                CreatedAt = t.CreatedAt
+            }).ToList();
+        }
+        public async Task<IEnumerable<TicketResponseDto>> GetAllTickets()
+        {
+            var tickets = await _ticketRepository.GetTicketsAsync();
+            return tickets.Select(t => new TicketResponseDto
+            {
+                TicketId = t.TicketId,
+                Title = t.Title,
+                Description = t.Description,
+                Status = t.Status.ToString(),
+                CreatedAt = t.CreatedAt,
+                AssetId = t.AssetId,
+                AssetName = t.Asset?.AssetName,
+                SerialNumber = t.Asset?.SerialNumber,
+                AssignedEmployeeId = t.AssignedEmployeeId,
+                EmployeeId = t.EmployeeId,
+                AssignedEmployeeName = t.AssignedEmployee != null ? $"{t.AssignedEmployee.FirstName} {t.AssignedEmployee.LastName}" : "-"
+            }).OrderByDescending(t => t.CreatedAt);
+
+        }
+        public async Task AssignTicketAsync(int ticketId, AssignTicketDTO dto)
+        {
+            var employee = await _employeeRepo.GetByIdAsync(dto.EmployeeId);
+            if (employee == null)
+            {
+                throw new ArgumentException("Employee not found");
+            }
+            var ticket = await _ticketRepository.AssignTicketAsync(ticketId, dto.EmployeeId);
+            if (ticket == null)
+            {
+                throw new ArgumentException("Ticket not found");
+            }
+            if (ticket.EmployeeId == dto.EmployeeId)
+            {
+                throw new ArgumentException(
+                    "Ticket cannot be assigned to the employee who raised it."
+                );
+            }
         }
     }
 }

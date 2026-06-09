@@ -141,5 +141,16 @@ namespace AssetManagement.Business.Services
                 Department = emp.Department
             });
         }
+        public async Task<IEnumerable<EmployeeDropdownDTO>> GetITEmployees()
+        {
+            var employees = await _EmpRepo.GetAllAsync();
+            return employees
+                .Where(emp => emp.Department == Department.IT)
+                .Select(emp => new EmployeeDropdownDTO
+                {
+                    EmployeeId = emp.EmployeeId,
+                    Name = $"{emp.FirstName} {emp.LastName}"
+                });
+        }
     }
 }
