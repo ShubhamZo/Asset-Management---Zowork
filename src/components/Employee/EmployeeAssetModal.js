@@ -1,6 +1,7 @@
 import React, { act, useEffect, useState } from 'react'
 import axios from 'axios'
 import ReturnAsset from '../AssignAsset/ReturnAsset'
+import TicketTable from '../Ticket/TicketTable'
 
 export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployees }) {
 
@@ -37,14 +38,14 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
     }, [])
 
     useEffect(() => {
-        if (activeTab === "tickets" && tickets.length === 0)
+        if (activeTab === "tickets")
             fetchTickets()
     }, [activeTab])
 
     return (
         <div className='modal-overlay'>
             <div className='modal-box' style={{
-                width: '900px',
+                width: '950px',
                 minHeight: '450px',
                 maxHeight: '90vh',
                 overflow: 'hidden'
@@ -107,39 +108,7 @@ export default function EmployeeAssetsModal({ employee, closeForm, fetchEmployee
                         </table>
                     )}
                     {activeTab === 'tickets' && (
-                        <table className='table table-bordered table-striped mt-3'>
-                            <thead className='table-dark'>
-                                <tr>
-                                    <th>Asset</th>
-                                    <th>Ticket ID</th>
-                                    <th>Issue</th>
-                                    <th>Status</th>
-                                    <th>Raised On</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {
-                                    tickets.length > 0 ? (
-                                        tickets.map((t) => (
-                                            <tr key={t.ticketId}>
-                                                <td>{t.assetName} - {t.serialNumber}</td>
-                                                <td>{t.ticketId}</td>
-                                                <td>{t.title}</td>
-                                                <td>{t.status}</td>
-                                                <td>{t.createdAt?.split('T')[0]}</td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="6" className='text-center'>
-                                                No tickets raised
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-                            </tbody>
-                        </table>
+                        <TicketTable tickets={tickets} showAssign={true} currentEmployeeId = {employee.employeeId} refreshTickets={fetchTickets} />
                     )}
                 </div>
                 {

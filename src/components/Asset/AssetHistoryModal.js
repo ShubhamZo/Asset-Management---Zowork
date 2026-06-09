@@ -59,55 +59,54 @@ export default function AssetHistoryModal({ asset, closeForm }) {
     }
 
     return (
-        <>
-            <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} >
-                <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header bg-primary text-white">
-                            <h5 className="modal-title">
-                                Asset Details
-                            </h5>
+        <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)"}}>
+            <div className="modal-dialog modal-dialog-centered modal-lg">
+                <div className="modal-content" style={{width: "1050px"}}>
+                    <div className="modal-header bg-primary text-white">
+                        <h5 className="modal-title">
+                            Asset Details
+                        </h5>
 
-                            <button className="btn-close" onClick={closeForm} ></button>
-                        </div>
+                        <button className="btn-close" onClick={closeForm} ></button>
+                    </div>
 
-                        <div className="modal-body" style={{ height: "350px", overflowY: "auto" }}>
-                            <h6 className="mb-3">
-                                Asset:{" #"} <strong>{asset.assetId} - {asset.assetName}</strong>
-                            </h6>
-                            <div className="d-flex justify-content-center gap-2 mb-3">
-                                <button className={`btn ${activeTab === 'history' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
-                                    onClick={() => setActiveTab('history')} >
-                                    Assignment History
-                                </button>
-                                <button className={`btn ${activeTab === 'upload' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
-                                    onClick={() => setActiveTab('upload')}>
-                                    Upload Documents
-                                </button>
-                                <button className={`btn ${activeTab === 'viewDocs' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
-                                    onClick={() => {
-                                        setActiveTab("viewDocs")
-                                        fetchDocuments()
-                                    }}>
-                                    View Documents
-                                </button>
-                                <button className={`btn ${activeTab === 'viewTickets' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
-                                    onClick={() => {
-                                        setActiveTab("viewTickets")
-                                        fetchTickets()
-                                    }}>
-                                    View Tickets
-                                </button>
-                            </div>
-                            {activeTab === 'history' && (<AssetHistoryTab history={history} />)}
-                            {activeTab === 'upload' && (<AssetUploadDocsTab assetId={asset.assetId} />)}
-                            {activeTab === 'viewDocs' && (<AssetViewDocs documents={documents} deleteDocument={deleteDocument} />)}
-                            {activeTab === 'viewTickets' && (<AssetViewTickets tickets={tickets} />)}
+                    <div className="modal-body" style={{height: "450px", overflowY: "auto" }}>
+                        <h6 className="mb-3">
+                            Asset:{" #"} <strong>{asset.assetId} - {asset.assetName}</strong>
+                        </h6>
+                        <div className="d-flex justify-content-center gap-2 mb-3">
+                            <button className={`btn ${activeTab === 'history' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
+                                onClick={() => setActiveTab('history')} >
+                                Assignment History
+                            </button>
+                            <button className={`btn ${activeTab === 'upload' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
+                                onClick={() => setActiveTab('upload')}>
+                                Upload Documents
+                            </button>
+                            <button className={`btn ${activeTab === 'viewDocs' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
+                                onClick={() => {
+                                    setActiveTab("viewDocs")
+                                    fetchDocuments()
+                                }}>
+                                View Documents
+                            </button>
+                            <button className={`btn ${activeTab === 'viewTickets' ? 'btn-warning btn-sm' : 'btn-sm btn-secondary'}`}
+                                onClick={() => {
+                                    setActiveTab("viewTickets")
+                                    fetchTickets()
+                                }}>
+                                View Tickets
+                            </button>
                         </div>
+                        {activeTab === 'history' && (<AssetHistoryTab history={history} />)}
+                        {activeTab === 'upload' && (<AssetUploadDocsTab assetId={asset.assetId} />)}
+                        {activeTab === 'viewDocs' && (<AssetViewDocs documents={documents} deleteDocument={deleteDocument} />)}
+                        {activeTab === 'viewTickets' && (<AssetViewTickets tickets={tickets} />)}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
+
     )
 
 }
