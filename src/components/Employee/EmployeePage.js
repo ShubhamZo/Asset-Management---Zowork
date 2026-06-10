@@ -13,6 +13,7 @@ export default function EmployeeDashboard() {
     const [allTickets, setAllTickets] = useState([])
     const [TicketCount, setTicketCount] = useState(0)
     const [activeTab, setActiveTab] = useState("assets")
+    const [assignedTickets, setAssignedTickets] = useState([])
 
     const storedUser = localStorage.getItem("user")
     const user = storedUser ? JSON.parse(storedUser) : null
@@ -45,14 +46,15 @@ export default function EmployeeDashboard() {
 
             setOpenTicketCount(openCountRes.data)
             setTicketCount(totalCountRes.data)
-
-            setAllTickets(tickets)
-
+            //setAllTickets(tickets)
             setOpenTicket(
                 tickets.filter(
-                    ticket => ticket.status === "Open"
+                    ticket => ticket.employeeId === employeeId
                 )
             )
+            setAssignedTickets(tickets.filter(
+                tickets => tickets.assignedEmployeeId === employeeId
+            ))
 
         } catch (error) {
             console.error("Error loading tickets:", error)
@@ -86,21 +88,21 @@ export default function EmployeeDashboard() {
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <div className={`card shadow ${activeTab === "open" ? "border-danger" : ""}`}
+                    <div className={`card shadow ${activeTab === "Raised" ? "border-danger" : ""}`}
                         style={{ cursor: "pointer" }}
-                        onClick={() => setActiveTab("open")}>
+                        onClick={() => setActiveTab("Raised")}>
                         <div className="card-body text-center">
-                            <h6 className="text-muted"> Open Tickets </h6>
+                            <h6 className="text-muted"> Raised Tickets </h6>
                             <h2 className="fw-bold text-danger"> {openTicketCount} </h2>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <div className={`card shadow ${activeTab === "tickets" ? "border-warning" : ""}`}
+                    <div className={`card shadow ${activeTab === "AssigendTickets" ? "border-warning" : ""}`}
                         style={{ cursor: "pointer" }}
-                        onClick={() => setActiveTab("tickets")} >
+                        onClick={() => setActiveTab("AssignedTickets")} >
                         <div className="card-body text-center">
-                            <h6 className="text-muted"> Total Tickets </h6>
+                            <h6 className="text-muted"> Assigned Tickets </h6>
                             <h2 className="fw-bold text-warning"> {TicketCount} </h2>
                         </div>
                     </div>
@@ -149,7 +151,7 @@ export default function EmployeeDashboard() {
                         )}
                     </div>
                 }
-                {activeTab === "open" && (
+                {activeTab === "Raised" && (
                     <table className='table table-bordered table-striped'>
                         <thead className="table-dark">
                             <tr>
@@ -182,22 +184,24 @@ export default function EmployeeDashboard() {
                         </tbody>
                     </table>
                 )}
-                {activeTab === "tickets" && (
+                {activeTab === "AssignedTickets" && (
                     <table className="table table-bordered table-striped">
                         <thead className="table-dark">
                             <tr>
                                 <th>Asset</th>
                                 <th>Ticket</th>
+                                <th>Description</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            {allTickets.length > 0 ? (
-                                allTickets.map(ticket => (
+                            {assignedTickets.length > 0 ? (
+                                assignedTickets.map(ticket => (
                                     <tr key={ticket.ticketId}>
                                         <td>{ticket.assetName} - {ticket.serialNumber}</td>
                                         <td>{ticket.title}</td>
+                                        <td><small>{ticket.description}</small></td>
                                         <td>{ticket.status}</td>
                                     </tr>
                                 ))

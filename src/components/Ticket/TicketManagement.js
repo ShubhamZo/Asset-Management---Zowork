@@ -13,6 +13,7 @@ export default function TicketManagement() {
     const [showAssignTo, setShowAssignTo] = useState(null)
     const [selectedEmployee, setSelectedEmployee] = useState({})
 
+
     const fetchTickets = async () => {
         try {
             const response = await axios.get('https://localhost:7059/api/Ticket')
@@ -111,6 +112,9 @@ export default function TicketManagement() {
                                             {
                                                 tkt.status === "Open" ? (
                                                     <div>
+                                                        {/*console.log("Ticket:", tkt.ticketId)}
+                                                            {console.log("Raised by:", tkt.employeeId)}
+                                                            {console.log("IT Employees:", itEmployees)*/}
                                                         <select className="form-select mb-2"
                                                             value={selectedEmployee[tkt.ticketId] || ""}
                                                             onFocus={() => {
@@ -126,12 +130,12 @@ export default function TicketManagement() {
                                                             }>
                                                             <option value=""> Select Employee </option>
                                                             {
-                                                                itEmployees.filter(emp => emp.employeeId !== tkt.employeeId)
+                                                                itEmployees.filter(emp => emp.employeeId != tkt.employeeId)
                                                                     .map(emp => (
-                                                                    <option key={emp.employeeId} value={emp.employeeId}>
-                                                                        #{emp.employeeId} - {emp.name}
-                                                                    </option>
-                                                                ))
+                                                                        <option key={emp.employeeId} value={emp.employeeId}>
+                                                                            #{emp.employeeId} - {emp.name}
+                                                                        </option>
+                                                                    ))
                                                             }
                                                         </select>
                                                         <button className=" btn btn-sm btn-success " disabled={!selectedEmployee[tkt.ticketId]}

@@ -19,6 +19,7 @@ export default function AssetManagement() {
     const assetsPerPage = 10
     const [searchTerm, setSearchTerm] = useState('')
     const [selectedAsset, setSelectedAsset] = useState(null)
+    
     const fetchAssets = async () => {
         try {
             const response = await axios.get('https://localhost:7059/api/Asset')
