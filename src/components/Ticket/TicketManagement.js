@@ -72,12 +72,12 @@ export default function TicketManagement() {
         try {
             await axios.put(`https://localhost:7059/api/Ticket/${ticketId}/status`,
                 {
-                    status  
+                    status
                 }
             )
-            setTickets( prev => 
-                prev.map(ticket => 
-                    ticket.ticketId === ticketId ? {...ticket, status} : ticket
+            setTickets(prev =>
+                prev.map(ticket =>
+                    ticket.ticketId === ticketId ? { ...ticket, status } : ticket
                 )
             )
             fetchTickets()
@@ -109,7 +109,7 @@ export default function TicketManagement() {
                         <tr>
                             <th style={{ width: '80px' }}>ID</th>
                             <th>Title</th>
-                            <th>Description</th>
+                            <th>Raised By</th>
                             <th>Status</th>
                             <th>Asset Details</th>
                             <th>Created AT</th>
@@ -123,7 +123,7 @@ export default function TicketManagement() {
                                     <tr key={tkt.ticketId} style={{ cursor: "pointer" }} onClick={() => setSelectedTicket(tkt)}>
                                         <td>{tkt.ticketId}</td>
                                         <td>{tkt.title}</td>
-                                        <td><small>{tkt.description}</small></td>
+                                        <td><small>{tkt.employeeName}</small></td>
                                         <td>{tkt.status === "Resolved" ? (
                                             <select className="form-select mb-3" value={tkt.status} onClick={(e) => { e.stopPropagation() }}
                                                 onChange={(e) =>
@@ -201,20 +201,18 @@ export default function TicketManagement() {
                             <div className="modal-content">
                                 <div className="modal-header bg-primary text-white">
                                     <h5 className="modal-title"> Resolution Note </h5>
-                                    <button className="btn-close" onClick={() => setSelectedTicket(null) } />
+                                    <button className="btn-close" onClick={() => setSelectedTicket(null)} />
                                 </div>
 
                                 <div className="modal-body">
-                                    <p><strong>Ticket:</strong> {" "} {selectedTicket.title} - {selectedTicket.description}</p>
-                                    <p><strong>Rasied By:</strong>{" "} {selectedTicket.employeeId}</p>
-                                    <div className="border rounded p-3" style={{minHeight: "120px"}}>
-                                        { selectedTicket.resolutionNote ? selectedTicket.resolutionNote : "No resolution note available" }
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-secondary" onClick={() => setSelectedTicket(null) } >
-                                        Close
-                                    </button>
+                                    <p><strong>Ticket:</strong> {" "} {selectedTicket.title}</p>
+                                    <p><strong>Description:</strong>{" "} {selectedTicket.description}</p>
+                                    <textarea className="form-control" rows="5" disabled
+                                        value={
+                                            selectedTicket.resolutionNote ||
+                                            "No resolution note available"
+                                        }
+                                    />
                                 </div>
                             </div>
                         </div>

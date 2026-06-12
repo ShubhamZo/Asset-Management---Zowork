@@ -106,7 +106,7 @@ export default function AssetManagement() {
                                         <td>{asset.serialNumber}</td>
                                         <td>{asset.status}</td>
                                         <td>{asset.purchaseDate?.split('T')[0]}</td>
-                                        <td className="text-nowrap">
+                                        <td className="text-nowrap" onClick={(e) => e.stopPropagation()}>
                                             {
                                                 asset.status === "Issued" ? (
                                                     <button className='btn btn-info btn-sm me-2' onClick={(e) => { e.stopPropagation(); setReturnAsset(asset) }} > Return </button>
