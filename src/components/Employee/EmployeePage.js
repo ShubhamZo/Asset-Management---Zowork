@@ -168,7 +168,7 @@ export default function EmployeeDashboard() {
                         <tbody>
                             {openTicket.length > 0 ? (
                                 openTicket.map(ticket => (
-                                    <tr key={ticket.ticketId} style={{ cursor: "pointer" }} onClick={() => setSelectedTicket(ticket)}>
+                                    <tr key={ticket.ticketId} >
                                         <td>{ticket.assetName} - {ticket.serialNumber}</td>
                                         <td>{ticket.title}</td>
                                         <td>{ticket.status}</td>

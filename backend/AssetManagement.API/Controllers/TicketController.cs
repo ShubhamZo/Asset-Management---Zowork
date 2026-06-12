@@ -64,5 +64,11 @@ namespace AssetManagement.API.Controllers
             await _ticketService.UpdateTicketStatus(ticketId, dto, dto.EmployeeId);
             return Ok();
         }
+        [HttpPut("{ticketId}/status")]
+        public async Task<IActionResult> UpdateStatus(int ticketId, [FromBody] UpdateTicketStatusDTO dto)
+        {
+            await _ticketService.UpdateTicketStatus(ticketId, dto, null);
+            return Ok();
+        }
     }
 }

@@ -144,7 +144,7 @@ export default function TicketManagement() {
                                         <td>{tkt.assetName} - { }<small>{tkt.serialNumber}</small>
                                         </td>
                                         <td>{tkt.createdAt?.split('T')[0]}</td>
-                                        <td>
+                                        <td onClick={(e) => { e.stopPropagation() }}>
                                             {
                                                 tkt.status === "Open" ? (
                                                     <div>
@@ -206,6 +206,7 @@ export default function TicketManagement() {
 
                                 <div className="modal-body">
                                     <p><strong>Ticket:</strong> {" "} {selectedTicket.title} - {selectedTicket.description}</p>
+                                    <p><strong>Rasied By:</strong>{" "} {selectedTicket.employeeId}</p>
                                     <div className="border rounded p-3" style={{minHeight: "120px"}}>
                                         { selectedTicket.resolutionNote ? selectedTicket.resolutionNote : "No resolution note available" }
                                     </div>

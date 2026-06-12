@@ -15,6 +15,6 @@ namespace AssetManagement.Business.Interface
         Task<List<TicketForAssetDto>> GetTicketsByAssetId(int assetId);
         Task <IEnumerable<TicketResponseDto>> GetAllTickets();
         Task AssignTicketAsync( int ticketId, AssignTicketDTO dto );
-        Task UpdateTicketStatus(int ticketId, UpdateTicketStatusDTO dto, int employeeId);
+        Task UpdateTicketStatus(int ticketId, UpdateTicketStatusDTO dto, int? employeeId);
     }
 }

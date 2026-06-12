@@ -135,7 +135,7 @@ namespace AssetManagement.Business.Services
             await _ticketRepository.AssignTicketAsync(ticketId, dto.EmployeeId);
             await _ticketRepo.SaveAsync();
         }
-       public async Task UpdateTicketStatus(int ticketId, UpdateTicketStatusDTO dto, int employeeId)
+       public async Task UpdateTicketStatus(int ticketId, UpdateTicketStatusDTO dto, int? employeeId = null)
         {
             var ticket = await _ticketRepository.GetByIdAsync(ticketId);
             /*Console.WriteLine($"TicketId: {ticket.TicketId}");
@@ -145,15 +145,19 @@ namespace AssetManagement.Business.Services
             if (ticket == null)
                 throw new Exception("Ticket not found");
 
-            if (ticket.AssignedEmployeeId != employeeId)
+            if (employeeId.HasValue && ticket.AssignedEmployeeId != employeeId)
                 throw new Exception("Unauthorized");
 
-            if (dto.Status != TicketStatus.Resolved && dto.Status != TicketStatus.OnHold)
+            if (dto.Status != TicketStatus.Resolved && dto.Status != TicketStatus.OnHold && dto.Status != TicketStatus.Closed)
             {
                 throw new Exception("Invalid Status");
             }
+            if (dto.ResolutionNote != null)
+            {
+                ticket.ResolutionNote = dto.ResolutionNote;
+            }
             ticket.Status = dto.Status;
-            ticket.ResolutionNote = dto.ResolutionNote;
+            //ticket.ResolutionNote = dto.ResolutionNote;
 
             if (ticket.Status == TicketStatus.Resolved)
             {
