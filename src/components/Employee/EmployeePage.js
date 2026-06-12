@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ReturnAssetModal from '../Asset/ReturnAssetModal'
 import RaiseTicketModal from '../Ticket/RaiseTicketModal'
+import TicketDetailsModal from '../Ticket/TicketDetailsModal'
 
 export default function EmployeeDashboard() {
 
@@ -14,6 +15,7 @@ export default function EmployeeDashboard() {
     const [TicketCount, setTicketCount] = useState(0)
     const [activeTab, setActiveTab] = useState("assets")
     const [assignedTickets, setAssignedTickets] = useState([])
+    const [selectedTicket, setSelectedTicket] = useState(null)
 
     const storedUser = localStorage.getItem("user")
     const user = storedUser ? JSON.parse(storedUser) : null
@@ -166,7 +168,7 @@ export default function EmployeeDashboard() {
                         <tbody>
                             {openTicket.length > 0 ? (
                                 openTicket.map(ticket => (
-                                    <tr key={ticket.ticketId}>
+                                    <tr key={ticket.ticketId} style={{ cursor: "pointer" }} onClick={() => setSelectedTicket(ticket)}>
                                         <td>{ticket.assetName} - {ticket.serialNumber}</td>
                                         <td>{ticket.title}</td>
                                         <td>{ticket.status}</td>
@@ -198,7 +200,7 @@ export default function EmployeeDashboard() {
                         <tbody>
                             {assignedTickets.length > 0 ? (
                                 assignedTickets.map(ticket => (
-                                    <tr key={ticket.ticketId}>
+                                    <tr key={ticket.ticketId} style={{ cursor: "pointer" }} onClick={() => setSelectedTicket(ticket)}>
                                         <td>{ticket.assetName} - {ticket.serialNumber}</td>
                                         <td>{ticket.title}</td>
                                         <td><small>{ticket.description}</small></td>
@@ -227,6 +229,12 @@ export default function EmployeeDashboard() {
                     selectedTicketAsset && (
                         <RaiseTicketModal asset={selectedTicketAsset} closeForm={() => setSelectedTicketAsset(null)} fetchAssets={fetchAssets}
                             fetchOpenTickets={fetchOpenTickets} />
+                    )
+                }
+                {
+                    selectedTicket &&
+                    (
+                        <TicketDetailsModal ticket={selectedTicket} closeForm={() => setSelectedTicket(null)} fetchOpenTickets={fetchOpenTickets} />
                     )
                 }
             </div>

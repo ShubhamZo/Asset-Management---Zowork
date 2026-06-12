@@ -24,6 +24,10 @@ export default function AddAsset({ fetchAssets, closeForm }) {
         e.preventDefault()
         if(!asset.assetName || !asset.assetType || !asset.serialNumber || !asset.purchaseDate) {
             setErrorMessage("Please enter Values");
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 2000);
+            setAsset({ assetName: '', assetType: '', serialNumber: '', purchaseDate: '', status: 'Active'})
             return;
         }
         try {
@@ -41,7 +45,7 @@ export default function AddAsset({ fetchAssets, closeForm }) {
 
         }
         catch (err) {
-                setErrorMessage(err.response.data);
+            setErrorMessage(err.response.data)
         }
     }
 

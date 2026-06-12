@@ -37,14 +37,16 @@ namespace AssetManagement.Data.Repositories
         }
         public async Task<Ticket> AssignTicketAsync(int ticketId, int employeeId)
         {
-            var ticket = await _context.Tickets.FindAsync(ticketId);
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticketId);
             if (ticket == null) return null;
-
-            ticket.AssignedEmployeeId = employeeId;
-            if(ticket.Status == TicketStatus.Open)
+            if(ticket.Status != TicketStatus.Open)
             {
-                ticket.Status = TicketStatus.InProgress;
+                throw new Exception("only open Tickets can be assigned");
             }
+            ticket.AssignedEmployeeId = employeeId;
+            ticket.Status = TicketStatus.InProgress;
+            ticket.UpdatedAt = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
             return ticket;
         }

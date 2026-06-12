@@ -390,6 +390,27 @@
   },
   {
     "ContainingType": "AssetManagement.API.Controllers.TicketController",
+    "Method": "UpdateTicket",
+    "RelativePath": "api/Ticket/{ticketId}/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ticketId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "AssetManagement.Model.DTO.TicketDto.UpdateTicketStatusDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AssetManagement.API.Controllers.TicketController",
     "Method": "GetTicketsByAssetId",
     "RelativePath": "api/Ticket/asset/{assetId}",
     "HttpMethod": "GET",

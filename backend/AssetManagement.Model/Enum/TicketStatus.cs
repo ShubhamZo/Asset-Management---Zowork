@@ -8,6 +8,7 @@ namespace AssetManagement.Model.Enum
     {
         Open,
         InProgress,
+        Resolved,
         OnHold,
         Closed
     }

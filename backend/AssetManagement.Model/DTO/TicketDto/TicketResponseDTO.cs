@@ -18,5 +18,10 @@ namespace AssetManagement.Model.DTO.TicketDto
         public int? AssignedEmployeeId { get; set; }
         public int EmployeeId { get; set; }
         public string AssignedEmployeeName { get; set; }
+        public string ResolutionNote { get; set; }
+        public DateTime? ResolvedDate { get; set; }
+
+        public DateTime? LastUpdatedAt { get; set; }
+
     }
 }

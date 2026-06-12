@@ -12,6 +12,7 @@ export default function TicketManagement() {
     const [itEmployees, setItEmployees] = useState([])
     const [showAssignTo, setShowAssignTo] = useState(null)
     const [selectedEmployee, setSelectedEmployee] = useState({})
+    const [selectedTicket, setSelectedTicket] = useState(null)
 
 
     const fetchTickets = async () => {
@@ -67,6 +68,25 @@ export default function TicketManagement() {
         t.assetName?.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
+    const closeTicket = async (ticketId, status) => {
+        try {
+            await axios.put(`https://localhost:7059/api/Ticket/${ticketId}/status`,
+                {
+                    status  
+                }
+            )
+            setTickets( prev => 
+                prev.map(ticket => 
+                    ticket.ticketId === ticketId ? {...ticket, status} : ticket
+                )
+            )
+            fetchTickets()
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
     const indexOfLastTicket = currentPage * ticketsPerPage
     const indexOfFirstTickets = indexOfLastTicket - ticketsPerPage
     const currentTickets = filteredTickets.slice(indexOfFirstTickets, indexOfLastTicket)
@@ -100,11 +120,27 @@ export default function TicketManagement() {
                         {
                             currentTickets.length > 0 ?
                                 (currentTickets.map((tkt) => (
-                                    <tr key={tkt.ticketId}>
+                                    <tr key={tkt.ticketId} style={{ cursor: "pointer" }} onClick={() => setSelectedTicket(tkt)}>
                                         <td>{tkt.ticketId}</td>
                                         <td>{tkt.title}</td>
                                         <td><small>{tkt.description}</small></td>
-                                        <td>{tkt.status}</td>
+                                        <td>{tkt.status === "Resolved" ? (
+                                            <select className="form-select mb-3" value={tkt.status} onClick={(e) => { e.stopPropagation() }}
+                                                onChange={(e) =>
+                                                    closeTicket(
+                                                        tkt.ticketId,
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="Resolved">Resolved</option>
+                                                <option value="Closed">Closed</option>
+                                            </select>
+                                        ) : (
+                                            <span>{tkt.status}</span>
+                                        )}
+
+                                        </td>
                                         <td>{tkt.assetName} - { }<small>{tkt.serialNumber}</small>
                                         </td>
                                         <td>{tkt.createdAt?.split('T')[0]}</td>
@@ -139,10 +175,10 @@ export default function TicketManagement() {
                                                             }
                                                         </select>
                                                         <button className=" btn btn-sm btn-success " disabled={!selectedEmployee[tkt.ticketId]}
-                                                            onClick={() => assignTicket(
-                                                                tkt.ticketId
-                                                            )
-                                                            } > Assign
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                assignTicket(tkt.ticketId)
+                                                            }} > Assign
                                                         </button>
                                                     </div>
                                                 ) : (<span> {tkt.assignedEmployeeName || "-"} </span>)
@@ -151,13 +187,39 @@ export default function TicketManagement() {
                                     </tr>
                                 ))) : (
                                     <tr>
-                                        <td colSpan="6" className="text-center"> No Tickets found </td>
+                                        <td colSpan="7" className="text-center"> No Tickets found </td>
                                     </tr>
                                 )
                         }
                     </tbody>
                 </table>
             </div>
+            {
+                selectedTicket && (
+                    <div className="modal d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }} >
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                                <div className="modal-header bg-primary text-white">
+                                    <h5 className="modal-title"> Resolution Note </h5>
+                                    <button className="btn-close" onClick={() => setSelectedTicket(null) } />
+                                </div>
+
+                                <div className="modal-body">
+                                    <p><strong>Ticket:</strong> {" "} {selectedTicket.title} - {selectedTicket.description}</p>
+                                    <div className="border rounded p-3" style={{minHeight: "120px"}}>
+                                        { selectedTicket.resolutionNote ? selectedTicket.resolutionNote : "No resolution note available" }
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-secondary" onClick={() => setSelectedTicket(null) } >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
             <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
         </div>
     )

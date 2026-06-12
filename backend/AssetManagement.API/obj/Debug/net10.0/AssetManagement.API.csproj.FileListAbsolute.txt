@@ -151,7 +151,6 @@ C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\staticwebassets.development.json
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\swae.build.ex.cache
-C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\AssetMan.7E8B1925.Up2Date
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\AssetManagement.API.dll
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\refint\AssetManagement.API.dll
@@ -182,3 +181,4 @@ C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\compressed\9loorl58fc-{0}-lejt6ybf15-lejt6ybf15.gz
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\compressed\npxx0a9g7e-{0}-stsmq02u84-stsmq02u84.gz
 C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\compressed\0xwptzxe6w-{0}-yh563eam9q-yh563eam9q.gz
+C:\Users\PF2TP\ZoWorkTutorial\ProjectAPI\Product\AssetManagement\AssetManagement.API\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

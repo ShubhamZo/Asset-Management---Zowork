@@ -57,5 +57,12 @@ namespace AssetManagement.API.Controllers
             await _ticketService.AssignTicketAsync(ticketId, dto);
             return Ok("Ticket assigned successfully");
         }
+        [HttpPut("{ticketId}/update")]
+        public async Task<IActionResult> UpdateTicket(int ticketId, [FromBody] UpdateTicketStatusDTO dto)
+        {
+            //Console.WriteLine("UPDATE API");
+            await _ticketService.UpdateTicketStatus(ticketId, dto, dto.EmployeeId);
+            return Ok();
+        }
     }
 }

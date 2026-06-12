@@ -13,9 +13,9 @@ namespace AssetManagement.Business.Validators.EmployeeCheck
             RuleFor(x => x.FirstName)
                 .NotEmpty()
                 .WithMessage("First Name is required");
-            RuleFor(x => x.LastName)
+            /*RuleFor(x => x.LastName)
                 .NotEmpty()
-                .WithMessage("Last Name is required");
+                .WithMessage("Last Name is required");*/
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .WithMessage("Email is required")

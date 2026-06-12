@@ -10,8 +10,7 @@ namespace AssetManagement.Model.DTO.EmployeeDto
     {
         [Required]
         public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
         [Required]
         public string Email { get; set; }
         [Required]

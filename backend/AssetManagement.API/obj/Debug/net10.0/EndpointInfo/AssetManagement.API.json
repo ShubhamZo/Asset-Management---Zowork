@@ -728,6 +728,48 @@
         }
       }
     },
+    "/api/Ticket/{ticketId}/update": {
+      "put": {
+        "tags": [
+          "Ticket"
+        ],
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTicketStatusDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTicketStatusDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTicketStatusDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/User": {
       "post": {
         "tags": [
@@ -868,8 +910,7 @@
         "required": [
           "department",
           "email",
-          "firstName",
-          "lastName"
+          "firstName"
         ],
         "type": "object",
         "properties": {
@@ -878,8 +919,8 @@
             "type": "string"
           },
           "lastName": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "email": {
             "minLength": 1,
@@ -982,6 +1023,16 @@
         },
         "additionalProperties": false
       },
+      "TicketStatus": {
+        "enum": [
+          "Open",
+          "InProgress",
+          "Resolved",
+          "OnHold",
+          "Closed"
+        ],
+        "type": "string"
+      },
       "UpdateAssetAssignmentDTO": {
         "type": "object",
         "properties": {
@@ -1018,6 +1069,23 @@
           "purchaseDate": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateTicketStatusDTO": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/TicketStatus"
+          },
+          "resolutionNote": {
+            "type": "string",
+            "nullable": true
+          },
+          "employeeId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

@@ -49,18 +49,18 @@ namespace AssetManagement.Business.Services
         public async Task<int> GetOpenTicketCount(int employeeId)
         {
             var tickets = await _ticketRepo.GetAllAsync();
-            return tickets.Count(t => t.EmployeeId == employeeId && t.Status == TicketStatus.Open);
+            return tickets.Count(t => t.EmployeeId == employeeId );
         }
         public async Task<int> GetTotalTicketCountById(int employeeId)
         {
             var tickets = await _ticketRepo.GetAllAsync();
-            return tickets.Count(t => t.EmployeeId == employeeId);
+            return tickets.Count(t => t.AssignedEmployeeId == employeeId);
         }
         public async Task<IEnumerable<TicketResponseDto>> GetTicketsByEmployee(int employeeId)
         {
             var tickets = await _ticketRepository.GetAllTicketsAsync();
 
-            return tickets.Where(t => t.EmployeeId == employeeId)
+            return tickets.Where(t => t.EmployeeId == employeeId || t.AssignedEmployeeId == employeeId)
                 .Select(t => new TicketResponseDto
                 {
                     TicketId = t.TicketId,
@@ -71,6 +71,10 @@ namespace AssetManagement.Business.Services
                     AssetId = t.AssetId,
                     AssetName = t.Asset?.AssetName ?? "Unknown Asset",
                     SerialNumber = t.Asset?.SerialNumber ?? "-",
+                    EmployeeId = t.EmployeeId,
+                    AssignedEmployeeId = t.AssignedEmployeeId,
+                    ResolutionNote = t.ResolutionNote,
+                    AssignedEmployeeName = t.AssignedEmployee != null ? $"{t.AssignedEmployee.FirstName} {t.AssignedEmployee.LastName}" : "-",
                     IsAssetCurrentlyAssigned = t.Asset?.AssetAssignments?.Any(a =>
                         a.EmployeeId == employeeId &&
                         a.ActualReturnDate == null
@@ -103,9 +107,10 @@ namespace AssetManagement.Business.Services
                 CreatedAt = t.CreatedAt,
                 AssetId = t.AssetId,
                 AssetName = t.Asset?.AssetName,
-                SerialNumber = t.Asset?.SerialNumber,
-                AssignedEmployeeId = t.AssignedEmployeeId,
                 EmployeeId = t.EmployeeId,
+                SerialNumber = t.Asset?.SerialNumber,
+                ResolutionNote= t.ResolutionNote,
+                AssignedEmployeeId = t.AssignedEmployeeId,
                 AssignedEmployeeName = t.AssignedEmployee != null ? $"{t.AssignedEmployee.FirstName} {t.AssignedEmployee.LastName}" : "-"
             }).OrderByDescending(t => t.CreatedAt);
 
@@ -117,17 +122,45 @@ namespace AssetManagement.Business.Services
             {
                 throw new ArgumentException("Employee not found");
             }
-            var ticket = await _ticketRepository.AssignTicketAsync(ticketId, dto.EmployeeId);
-            if (ticket == null)
+            var ticket = await _ticketRepo.GetByIdAsync(ticketId);
+            if(ticket == null)
             {
                 throw new ArgumentException("Ticket not found");
             }
-            if (ticket.EmployeeId == dto.EmployeeId)
+            if(ticket.EmployeeId == dto.EmployeeId)
             {
-                throw new ArgumentException(
-                    "Ticket cannot be assigned to the employee who raised it."
-                );
+                throw new ArgumentException("Ticket cannot be assigned to the employee who raised it.");
             }
+
+            await _ticketRepository.AssignTicketAsync(ticketId, dto.EmployeeId);
+            await _ticketRepo.SaveAsync();
         }
+       public async Task UpdateTicketStatus(int ticketId, UpdateTicketStatusDTO dto, int employeeId)
+        {
+            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+            /*Console.WriteLine($"TicketId: {ticket.TicketId}");
+            Console.WriteLine($"Assigned: {ticket.AssignedEmployeeId}");
+            Console.WriteLine($"Current: {employeeId}");
+            */
+            if (ticket == null)
+                throw new Exception("Ticket not found");
+
+            if (ticket.AssignedEmployeeId != employeeId)
+                throw new Exception("Unauthorized");
+
+            if (dto.Status != TicketStatus.Resolved && dto.Status != TicketStatus.OnHold)
+            {
+                throw new Exception("Invalid Status");
+            }
+            ticket.Status = dto.Status;
+            ticket.ResolutionNote = dto.ResolutionNote;
+
+            if (ticket.Status == TicketStatus.Resolved)
+            {
+                ticket.ResolvedDate = DateTime.UtcNow;
+            }
+            _ticketRepo.Update(ticket);
+            await _ticketRepo.SaveAsync();
+        } 
     }
 }

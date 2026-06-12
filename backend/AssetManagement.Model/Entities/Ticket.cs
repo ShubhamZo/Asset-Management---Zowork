@@ -23,8 +23,11 @@ namespace AssetManagement.Model.Entities
         [Required]
         public int EmployeeId { get; set; }
         public int? AssignedEmployeeId { get; set; }
+        public string? ResolutionNote { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
         public Employee AssignedEmployee { get; set; }
         public Asset Asset { get; set; }
         public Employee Employee { get; set; }
+
     }
 }
