@@ -110,10 +110,10 @@ export default function TicketManagement() {
                             <th style={{ width: '80px' }}>ID</th>
                             <th>Title</th>
                             <th>Raised By</th>
-                            <th>Status</th>
+                            <th style={{ width: '130px' }}>Status</th>
                             <th>Asset Details</th>
-                            <th>Created AT</th>
-                            <th>Assigned To</th>
+                            <th style={{ width: '120px' }}>Created AT</th>
+                            <th style={{ width: '250px' }}>Assigned To</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,9 +121,9 @@ export default function TicketManagement() {
                             currentTickets.length > 0 ?
                                 (currentTickets.map((tkt) => (
                                     <tr key={tkt.ticketId} style={{ cursor: "pointer" }} onClick={() => setSelectedTicket(tkt)}>
-                                        <td>{tkt.ticketId}</td>
+                                        <td style={{ width:"80px" }}>{tkt.ticketId}</td>
                                         <td>{tkt.title}</td>
-                                        <td><small>{tkt.employeeName}</small></td>
+                                        <td>{tkt.employeeName}</td>
                                         <td>{tkt.status === "Resolved" ? (
                                             <select className="form-select mb-3" value={tkt.status} onClick={(e) => { e.stopPropagation() }}
                                                 onChange={(e) =>
@@ -143,15 +143,16 @@ export default function TicketManagement() {
                                         </td>
                                         <td>{tkt.assetName} - { }<small>{tkt.serialNumber}</small>
                                         </td>
-                                        <td>{tkt.createdAt?.split('T')[0]}</td>
+                                        <td >{tkt.createdAt?.split('T')[0]}</td>
                                         <td onClick={(e) => { e.stopPropagation() }}>
                                             {
                                                 tkt.status === "Open" ? (
-                                                    <div>
+                                                    <div className="d-flex align-items-center gap-2">
                                                         {/*console.log("Ticket:", tkt.ticketId)}
                                                             {console.log("Raised by:", tkt.employeeId)}
                                                             {console.log("IT Employees:", itEmployees)*/}
-                                                        <select className="form-select mb-2"
+                                                        <select className="form-select"
+                                                            style={{ minWidth: 0 }}
                                                             value={selectedEmployee[tkt.ticketId] || ""}
                                                             onFocus={() => {
                                                                 if (itEmployees.length === 0) {
@@ -178,7 +179,7 @@ export default function TicketManagement() {
                                                             onClick={(e) => {
                                                                 e.stopPropagation()
                                                                 assignTicket(tkt.ticketId)
-                                                            }} > Assign
+                                                            }} >&#10003;
                                                         </button>
                                                     </div>
                                                 ) : (<span> {tkt.assignedEmployeeName || "-"} </span>)

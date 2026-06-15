@@ -1,5 +1,18 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 export default function NavBar() {
+
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("role"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("role")
+    localStorage.removeItem("employeeId")
+    setIsLoggedIn(false);
+    navigate("/login");
+    window.location.reload();
+  }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -9,21 +22,17 @@ export default function NavBar() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/login">Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/about">About</Link>
-              </li>
-              {
-              /*<li className="nav-item">
-                <Link className="nav-link" to="/admin">Admin</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/employee">Employee</Link>
-              </li>
-              */}
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              {!isLoggedIn ? (
+                <li className="nav-item ms-3">
+                  <Link className="nav-link active fw-bold" aria-current="page" to="/login">Login</Link>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <button className="nav-link active fw-bold" onClick={handleLogout} > Logout </button>
+                </li>
+              )}
+
             </ul>
           </div>
         </div>

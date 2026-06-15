@@ -28,6 +28,9 @@ export default function Login() {
             //console.log("API Response:", response.data);
             const user = response.data
             localStorage.setItem("user", JSON.stringify(user))
+            localStorage.setItem("role", user.role)
+            localStorage.setItem("employeeId", user.employeeId)
+            //window.location.reload();
             //console.log("Role:", user.role)
             if (user.role === "Admin") {
                 navigate('/AdminPage')
@@ -35,6 +38,7 @@ export default function Login() {
             else if (user.role === "Employee") {
                 navigate('/EmployeePage')
             }
+            window.location.reload();
         }
         catch (err) {
             setError("Invalid username or password")
