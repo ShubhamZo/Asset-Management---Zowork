@@ -13,6 +13,7 @@ export default function TicketManagement() {
     const [showAssignTo, setShowAssignTo] = useState(null)
     const [selectedEmployee, setSelectedEmployee] = useState({})
     const [selectedTicket, setSelectedTicket] = useState(null)
+    const [statusFilter, setStatusFilter] = useState("")
 
 
     const fetchTickets = async () => {
@@ -62,11 +63,18 @@ export default function TicketManagement() {
         }
 
     }
-    const filteredTickets = tickets.filter((t) =>
-        t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        String(t.status).toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t.assetName?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const filteredTickets = tickets.filter((t) => {
+        const matchesSearch =
+            t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            String(t.status).toLowerCase().includes(searchTerm.toLowerCase()) ||
+            t.assetName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            t.assignedEmployeeName.toLowerCase().includes(searchTerm.toLowerCase())
+
+        const matchesStatus = statusFilter === "" ? true : t.status === statusFilter
+
+        return matchesSearch && matchesStatus
+    })
+
 
     const closeTicket = async (ticketId, status) => {
         try {
@@ -101,6 +109,32 @@ export default function TicketManagement() {
             <div className="d-flex justify-content-between mb-3">
                 <h2>Ticket Management</h2>
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder="Search tickets..." />
+                <div className="d-flex gap-2">
+                    <button className={`badge btn btn-sm rounded-pill px-2 py-1 ${statusFilter === "Open" ? "text-bg-danger" : "btn-light border border-danger text-danger"}`}
+                        onClick={() => {
+                            setStatusFilter(
+                                statusFilter === "Open" ? "" : "Open"
+                            )
+                            setCurrentPage(1)
+                        }}>Open
+                    </button>
+                    <button className={`badge btn btn-sm rounded-pill px-2 py-1 fw-bold ${statusFilter === "Resolved" ? "text-bg-primary" : "btn-light border border-primary text-primary"}`}
+                        onClick={() => {
+                            setStatusFilter(
+                                statusFilter === "Resolved" ? "" : "Resolved"
+                            )
+                            setCurrentPage(1)
+                        }}>Resolved
+                    </button>
+                    <button className={`badge btn btn-sm rounded-pill px-2 py-1 fw-bold ${statusFilter === "Closed" ? "text-bg-warning" : "btn-light border border-warning text-warning"}`}
+                        onClick={() => {
+                            setStatusFilter(
+                                statusFilter === "Closed" ? "" : "Closed"
+                            )
+                            setCurrentPage(1)
+                        }}>Closed
+                    </button>
+                </div>
             </div>
 
             <div style={{ minHeight: '550px' }}>
@@ -121,7 +155,7 @@ export default function TicketManagement() {
                             currentTickets.length > 0 ?
                                 (currentTickets.map((tkt) => (
                                     <tr key={tkt.ticketId} style={{ cursor: "pointer" }} onClick={() => setSelectedTicket(tkt)}>
-                                        <td style={{ width:"80px" }}>{tkt.ticketId}</td>
+                                        <td style={{ width: "80px" }}>{tkt.ticketId}</td>
                                         <td>{tkt.title}</td>
                                         <td>{tkt.employeeName}</td>
                                         <td>{tkt.status === "Resolved" ? (

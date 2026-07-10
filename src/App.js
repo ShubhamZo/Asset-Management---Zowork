@@ -17,7 +17,6 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Login />} />
             <Route exact path='/login' element={<Login />} />
-            <Route exact path='/about' element={<About />} />
 
             <Route path="/AdminPage" element={
               <ProtectedRoute role='Admin'>
